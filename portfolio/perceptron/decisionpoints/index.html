@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Decision Boundaries</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/owl.carousel.css">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/owl.theme.css">
+
+
+  <link href="https://NathanielF.github.io/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="https://NathanielF.github.io/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="https://NathanielF.github.io/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="../../../">Randomly Jittered</a></h1>
+    
+      <p class="sidebar-p">I am a developer working in the field of CAT risk. This website is where i work through things I don't understand.</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="https://NathanielF.github.io/">Home</a></li>
+      
+        <li><a href="https://NathanielF.github.io/about/">About</a></li>
+      
+        <li><a href="https://NathanielF.github.io/contact/">Get in touch</a></li>
+      
+        <li><a href="https://NathanielF.github.io/blog/">Blog</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  <a href="https://www.facebook.com/nathaniel.forde" data-animate-hover="pulse" class="external facebook">
+    <i class="fa fa-facebook"></i>
+  </a>
+  
+  
+  
+  
+  
+  <a href="mailto:nathaniel.forde@gmail.com" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  <a href="https://www.linkedin.com/in/nathaniel-forde-2477a265/" data-animate-hover="pulse">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  
+  
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Nathaniel Forde
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="../../../">Randomly Jittered</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Decision Boundaries</h1>
+         <p>Despite sounding like the protagonist of rejected sci-fi script, the perceptron is just a lowly algorithm. Inspired by the model of neuronal triggering patterns, this simple linear classifier was designed to enact a pseudo-biological processing mechanism. As our brain receives and processes different inputs it unconsciously corrects for infelicities in rendering based on a weighting derived from past experience. The thought is that we are progressively conditioned for behaviour that expedites performance of perceptual and physical reflex. At a more gross level our body learns not to waste resources digesting food it can&rsquo;t process, and optimises the processes that extract nutrients from food where it can. This operational pattern is assumed to hold even down to the level of the neuron.
+While the brain-model analogy is far from perfect and breaks down somewhat in the details, it should be sufficient to lend context to our elaboration of the algorithm below.</p>
+
+<p>We will build the perceptron algorithm from the basic buildings blocks of the Golang programming language.The exercise is intended as much to showcase the Go language as it is to explore the perceptron algorithm.</p>
+
+<p>In an image the processing model follows this trajectory:
+<img src="../../../projects/perceptron/perceptron_schematic.png" alt="The perceptron" /></p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">import</span> <span style="color: #4070a0">&quot;fmt&quot;</span>
+
+<span style="color: #007020; font-weight: bold">func</span> dotproduct(input []<span style="color: #902000">float64</span>, weights []<span style="color: #902000">float64</span>) <span style="color: #902000">float64</span> {
+    sum <span style="color: #666666">:=</span> <span style="color: #40a070">0.0</span>
+    <span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(input); i<span style="color: #666666">++</span> {
+        sum = sum <span style="color: #666666">+</span> (input[i] <span style="color: #666666">*</span> weights[i])
+    }
+    <span style="color: #007020; font-weight: bold">return</span> sum
+}
+</pre></div>
+
+<p>This is the dot product function which will be used to combine the disparate inputs and their learned weights. The dotproduct function is versatile in that it can take numeric weights which represent continuous data or integers which are coded classifiers of categories. However this range of possibilities is then processed and reduced to a single number which (given a large range of inputs) can often appear like a meaningless summary figure.</p>
+
+<p>Yet given some domain knowledge and reasonable expectations about function output we can set a threshold figure to define a binary classification function known as the heaviside activation function. It is often reasonable to set the threshold to 0 in which case the proportion of positive (negative) inputs will force the output over (below) the threshold. This allows for a concise summary of our triggering event as being of one kind or another.</p>
+
+<p>We will code the process in stages of function composition. We take each stage in turn.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #60a0b0; font-style: italic">// Our activation function</span>
+<span style="color: #007020; font-weight: bold">func</span> heaviside(x <span style="color: #902000">float64</span>) <span style="color: #902000">float64</span> {
+    <span style="color: #007020; font-weight: bold">if</span> x <span style="color: #666666">&gt;=</span> <span style="color: #40a070">0.0</span> {
+        <span style="color: #007020; font-weight: bold">return</span> <span style="color: #40a070">1.0</span>
+    }
+    <span style="color: #007020; font-weight: bold">return</span> <span style="color: #666666">-</span><span style="color: #40a070">1.0</span>
+}
+</pre></div>
+
+<p>Putting these details together allows us to make a simple prediction informed by the kind of inputs received.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #60a0b0; font-style: italic">// Function which runs the dotproduct through an activation function</span>
+
+<span style="color: #007020; font-weight: bold">func</span> predict(input []<span style="color: #902000">float64</span>, weights []<span style="color: #902000">float64</span>) <span style="color: #902000">float64</span> {
+    sum <span style="color: #666666">:=</span> dotproduct(input, weights)
+    <span style="color: #007020; font-weight: bold">return</span> heaviside(sum)
+}
+</pre></div>
+
+<p>In the case where we aim to refine our predictive capacity we can train our algorithm on the historic dataset. Given a set of historic observations (e.g. the length and width of a petal or sepal in a given iris), we can identfy those combinations of length and width which are associated with different species of iris. In this context this means that we run our prediction algorithm on the training data and observe the difference (delta) between the prediction and the actual species as noted in the historical record. Just as we would get better at recognising the flowers if we were penalised for every incorrect identification.
+Ultimately the idea is that we use this delta to refine the weights we assign to each feature upon encountering a false prediction. So long as the dataset is linearly seperable, if we refine each weight as we iterate this process across each observation we will ultimately converge on a set of weights which result in no prediction errors.</p>
+
+<p><img src="../../../projects/perceptron/Cycle.png" alt="The Cycle" /></p>
+
+<p>This raises the question of how we should update the weights with respect to the discovered delta?</p>
+
+<p>The choice is informed by the degree to which we want refine our weights given an observed error. We don&rsquo;t want to over-correct since this means we might fail to converge and if we under-correct then convergence might take an age. While the choice of a correction is parameter which ought to be specified with knowledge of the project at hand, we can in general specify a learning rate that implements a change in the features weight proportional to input.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #60a0b0; font-style: italic">// update function for an individual observation vector i.e. the input array</span>
+
+<span style="color: #007020; font-weight: bold">func</span> update(input []<span style="color: #902000">float64</span>, delta <span style="color: #902000">float64</span>, weights []<span style="color: #902000">float64</span>, rate <span style="color: #902000">float64</span>) []<span style="color: #902000">float64</span> {
+    <span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">1</span>; i &lt; <span style="color: #007020">len</span>(weights); i<span style="color: #666666">++</span> {
+        weights[i] = round(weights[i], <span style="color: #40a070">.5</span>, <span style="color: #40a070">3</span>) <span style="color: #666666">+</span> delta<span style="color: #666666">*</span>rate<span style="color: #666666">*</span>input[i]
+    }
+    weights[<span style="color: #40a070">0</span>] = round(weights[<span style="color: #40a070">0</span>], <span style="color: #40a070">.5</span>, <span style="color: #40a070">3</span>) <span style="color: #666666">+</span> delta<span style="color: #666666">*</span>rate
+    <span style="color: #007020; font-weight: bold">return</span> weights
+}
+</pre></div>
+
+<p>Once we&rsquo;ve updated the weights for one flawed prediction we continue the process and loop through our entire set of training observations.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #60a0b0; font-style: italic">// Process function looping over each observation-vector in our dataset (i.e. the array of input arrays)</span>
+<span style="color: #60a0b0; font-style: italic">//  and updating the weights. Each element of the array  is like: &quot;5.9,3.0,5.1,1.8,Iris-virginica&quot;</span>
+<span style="color: #60a0b0; font-style: italic">// Returns new weights and error count for each prediction based on the observed values.</span>
+
+<span style="color: #007020; font-weight: bold">func</span> process(inputs [][]<span style="color: #902000">float64</span>, weights []<span style="color: #902000">float64</span>, rate <span style="color: #902000">float64</span>) ([]<span style="color: #902000">float64</span>, <span style="color: #902000">int</span>) {
+    errorcount <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>
+    <span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i <span style="color: #666666">&lt;=</span> <span style="color: #007020">len</span>(inputs)<span style="color: #666666">-</span><span style="color: #40a070">1</span>; i<span style="color: #666666">++</span> {
+        target <span style="color: #666666">:=</span> inputs[i][<span style="color: #007020">len</span>(inputs[i])<span style="color: #666666">-</span><span style="color: #40a070">1</span>]        
+        <span style="color: #60a0b0; font-style: italic">// target is included in our training data</span>
+        prediction <span style="color: #666666">:=</span> predict(inputs[i][<span style="color: #40a070">0</span>:<span style="color: #007020">len</span>(inputs[i])<span style="color: #666666">-</span><span style="color: #40a070">1</span>], weights)
+        <span style="color: #60a0b0; font-style: italic">// prediction on the dataset minus the target</span>
+        delta <span style="color: #666666">:=</span> target <span style="color: #666666">-</span> prediction
+        weights = update(inputs[i], delta, weights, rate)
+        <span style="color: #007020; font-weight: bold">if</span> delta <span style="color: #666666">!=</span> <span style="color: #40a070">0.0</span> {
+            errorcount = errorcount <span style="color: #666666">+</span> <span style="color: #40a070">1</span>
+        }
+    }
+<span style="color: #007020; font-weight: bold">return</span> weights, errorcount
+}
+</pre></div>
+
+<p>This is sufficient to run through an entire dataset making incremental changes upon encountering each error. But there is no guarantee that such incremental changes will be sufficient to converge to a set of weights which
+perfectly predict all our training observations. The perceptron algorithm is simply the repetition of this process for pre-specified number of iterations.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">func</span> perceptron(inputs [][]<span style="color: #902000">float64</span>, weights []<span style="color: #902000">float64</span>, rate <span style="color: #902000">float64</span>, iterations <span style="color: #902000">int</span>) ([]<span style="color: #902000">float64</span>, []<span style="color: #902000">int</span>) {
+    <span style="color: #007020; font-weight: bold">var</span> finalweights []<span style="color: #902000">float64</span>
+    <span style="color: #007020; font-weight: bold">var</span> finalerrors []<span style="color: #902000">int</span>
+    <span style="color: #007020; font-weight: bold">var</span> finalerror <span style="color: #902000">int</span>
+    <span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i <span style="color: #666666">&lt;=</span> iterations; i<span style="color: #666666">++</span> {
+        fmt.Println(<span style="color: #4070a0">&quot;Input weight loop&quot;</span>, i, <span style="color: #4070a0">&quot;:&quot;</span>, finalweights)
+        finalweights, finalerror = process(inputs, weights, rate)
+        finalerrors = <span style="color: #007020">append</span>(finalerrors, finalerror)
+    }
+    <span style="color: #007020; font-weight: bold">return</span> finalweights, finalerrors
+}
+</pre></div>
+
+<p>To run the algorithm on real data we load in the iris data set and encode the strings as numeric values.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #60a0b0; font-style: italic">//Loading in the iris data as a slice of row strings</span>
+    iris, err <span style="color: #666666">:=</span> readLines(<span style="color: #4070a0">&quot;/iris.data.csv&quot;</span>)
+    <span style="color: #007020; font-weight: bold">if</span> err <span style="color: #666666">!=</span> <span style="color: #007020; font-weight: bold">nil</span> {
+        <span style="color: #007020; font-weight: bold">return</span>
+    }
+
+    str <span style="color: #666666">:=</span> iris
+
+
+<span style="color: #60a0b0; font-style: italic">//   We now extract the various row elements initially as strings,</span>
+<span style="color: #60a0b0; font-style: italic">//   from the row-string ( e.g from  &quot;5.9,3.0,5.1,1.8,Iris-virginica&quot;),</span>
+<span style="color: #60a0b0; font-style: italic">//   we extract &quot;5.9&quot; and convert to force the values into numeric format.</span>
+<span style="color: #60a0b0; font-style: italic">//   We then reconstruct the row andput the details into a slice of slices</span>
+<span style="color: #60a0b0; font-style: italic">//   called inputs. We only need the first hundred observations of iris data.</span>
+<span style="color: #60a0b0; font-style: italic">//   We will use a perceptron to</span>
+<span style="color: #60a0b0; font-style: italic">//  distinguish the Iris-virginica and Iris-setosa based on Sepal and Petal length.</span>
+
+    inputs <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">100</span>) <span style="color: #60a0b0; font-style: italic">// Declaring the empty slice of slices. Our design matrix.</span>
+
+    <span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #40a070">100</span>; i<span style="color: #666666">++</span> { <span style="color: #60a0b0; font-style: italic">// pull out and convert each substring into a number</span>
+        <span style="color: #007020; font-weight: bold">var</span> input []<span style="color: #902000">float64</span>
+    p, _ <span style="color: #666666">:=</span> strconv.ParseFloat(strings.Split(<span style="color: #007020">string</span>(str[i]), <span style="color: #4070a0">&quot;,&quot;</span>)[<span style="color: #40a070">0</span>], <span style="color: #40a070">64</span>) <span style="color: #60a0b0; font-style: italic">// Sepal Length</span>
+    <span style="color: #60a0b0; font-style: italic">//q, _ := strconv.ParseFloat(strings.Split(string(str[i]), &quot;,&quot;)[1], 64)</span>
+    r, _ <span style="color: #666666">:=</span> strconv.ParseFloat(strings.Split(<span style="color: #007020">string</span>(str[i]), <span style="color: #4070a0">&quot;,&quot;</span>)[<span style="color: #40a070">2</span>], <span style="color: #40a070">64</span>) <span style="color: #60a0b0; font-style: italic">// Petal Length</span>
+    <span style="color: #60a0b0; font-style: italic">//s, _ := strconv.ParseFloat(strings.Split(string(str[i]), &quot;,&quot;)[3], 64)</span>
+    t <span style="color: #666666">:=</span> binary(strings.Split(<span style="color: #007020">string</span>(str[i]), <span style="color: #4070a0">&quot;,&quot;</span>)[<span style="color: #40a070">4</span>] <span style="color: #666666">==</span> <span style="color: #4070a0">&quot;Iris-setosa&quot;</span>)
+        input = <span style="color: #007020">append</span>(input, <span style="color: #40a070">1.0</span>) <span style="color: #60a0b0; font-style: italic">/////// Recreating our row vectors for each observation</span>
+        input = <span style="color: #007020">append</span>(input, p)
+        <span style="color: #60a0b0; font-style: italic">//input = append(input, q)</span>
+        input = <span style="color: #007020">append</span>(input, r)
+        <span style="color: #60a0b0; font-style: italic">//input = append(input, s)</span>
+        input = <span style="color: #007020">append</span>(input, t)
+        inputs[i] = input
+    <span style="color: #60a0b0; font-style: italic">// Defining each row-vector observation (e.g [1, 5.9, 5.1, -1])</span>
+    <span style="color: #60a0b0; font-style: italic">// as an instance of our design matrix  [&quot;intercept column&quot;, &quot;sepal length&quot;, &quot;petal length&quot;, target]</span>
+    }
+
+    <span style="color: #007020; font-weight: bold">var</span> w = []<span style="color: #902000">float64</span>{<span style="color: #40a070">0</span>, <span style="color: #40a070">0</span>, <span style="color: #40a070">0</span>} <span style="color: #60a0b0; font-style: italic">///////// initialising our weights</span>
+
+fmt.Println(perceptron(inputs, w, <span style="color: #40a070">.1</span>, <span style="color: #40a070">10</span>))
+</pre></div>
+
+<p>Nathaniels-MacBook-Pro:GoLang nathanielforde$ go run Perceptron.go
+Input weight loop 0 : []</p>
+
+<p>Input weight loop 1 : [0 0.38 0.66]</p>
+
+<p>Input weight loop 2 : [0 0.76 1.32]</p>
+
+<p>Input weight loop 3 : [-0.2 0.22 1.68]</p>
+
+<p>Input weight loop 4 : [-0.2 0.34 2.1]</p>
+
+<p>Input weight loop 5 : [-0.4 -0.68 1.82]</p>
+
+<p>Input weight loop 6 : [-0.4 -0.68 1.82]</p>
+
+<p>Input weight loop 7 : [-0.4 -0.68 1.82]</p>
+
+<p>Input weight loop 8 : [-0.4 -0.68 1.82]</p>
+
+<p>Input weight loop 9 : [-0.4 -0.68 1.82]</p>
+
+<p>Input weight loop 10 : [-0.4 -0.68 1.82]</p>
+
+<p>[-0.4 -0.68 1.82] [2 2 3 2 1 0 0 0 0 0 0]</p>
+
+<p>Here we can see that the perceptron algorithm converges after five iterations, and indeed we can plot the decision boundary in two dimensions based on the discovered weights. Crucially the decision boundary does indeed seperate the two species of iris.</p>
+
+<p><img src="../../../projects/perceptron/iris.Rplot.png" alt="The Cycle" /></p>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="https://NathanielF.github.io/js/jquery.min.js"></script>
+<script src="https://NathanielF.github.io/js/bootstrap.min.js"></script>
+<script src="https://NathanielF.github.io/js/jquery.cookie.js"> </script>
+<script src="https://NathanielF.github.io/js/ekko-lightbox.js"></script>
+<script src="https://NathanielF.github.io/js/jquery.scrollTo.min.js"></script>
+<script src="https://NathanielF.github.io/js/masonry.pkgd.min.js"></script>
+<script src="https://NathanielF.github.io/js/imagesloaded.pkgd.min.js"></script>
+<script src="https://NathanielF.github.io/js/owl.carousel.min.js"></script>
+<script src="https://NathanielF.github.io/js/front.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</body>
+</html>

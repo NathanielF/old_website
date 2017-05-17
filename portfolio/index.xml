@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Portfolios on Randomly Jittered</title>
+    <link>https://NathanielF.github.io/portfolio/</link>
+    <description>Recent content in Portfolios on Randomly Jittered</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy;2017 Nathaniel Forde</copyright>
+    <lastBuildDate>Mon, 08 May 2017 08:22:07 +0100</lastBuildDate>
+    
+	<atom:link href="https://NathanielF.github.io/portfolio/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Decision Boundaries</title>
+      <link>https://NathanielF.github.io/portfolio/perceptron/decisionpoints/</link>
+      <pubDate>Mon, 08 May 2017 08:22:07 +0100</pubDate>
+      
+      <guid>https://NathanielF.github.io/portfolio/perceptron/decisionpoints/</guid>
+      <description>Despite sounding like the protagonist of rejected sci-fi script, the perceptron is just a lowly algorithm. Inspired by the model of neuronal triggering patterns, this simple linear classifier was designed to enact a pseudo-biological processing mechanism. As our brain receives and processes different inputs it unconsciously corrects for infelicities in rendering based on a weighting derived from past experience. The thought is that we are progressively conditioned for behaviour that expedites performance of perceptual and physical reflex.</description>
+    </item>
+    
+    <item>
+      <title>Matrices and Machine Learning</title>
+      <link>https://NathanielF.github.io/portfolio/matrixalgebra/matrixmultiplication/</link>
+      <pubDate>Mon, 08 May 2017 08:22:07 +0100</pubDate>
+      
+      <guid>https://NathanielF.github.io/portfolio/matrixalgebra/matrixmultiplication/</guid>
+      <description>The ubiquity of matrix manipulation in machine learning means that languages like R and Python, which have been optimised for linear algebra, are very well suited to the task of making robots think. It is less clear to me whether Skynet could be written in Golang? There are a number of machine learning packages in development but none have the naturalness of an R implementation. To that end I decided to create some of the functionality I need.</description>
+    </item>
+    
+    <item>
+      <title>Why is OLS BLUE?</title>
+      <link>https://NathanielF.github.io/portfolio/ols/ols-and-the-gauss-markov-theorem/</link>
+      <pubDate>Sun, 06 Nov 2016 13:00:25 +0530</pubDate>
+      
+      <guid>https://NathanielF.github.io/portfolio/ols/ols-and-the-gauss-markov-theorem/</guid>
+      <description>There is an aesthetic discipline to mathematics as much as there is an expectation of rigour. We shall attempt to showcase the relation between aesthetic dimension of a proof with its explanatory purchase.
+$\text{ &amp;ldquo;If one proves the equality of two numbers } a \text{ and } b \text{ by showing}$ $\text{ first that “} a \text{ is less than or equal to } b\text{” and then}$ $\text{“}a \text{ is greater than or equal to } b \text{”,it is unfair, one should}$ $\text{ instead show that they are really equal by disclosing the inner ground }$ $\text{ for their equality.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Why is OLS BLUE?</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/owl.carousel.css">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/owl.theme.css">
+
+
+  <link href="https://NathanielF.github.io/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="https://NathanielF.github.io/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="https://NathanielF.github.io/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="../../">Randomly Jittered</a></h1>
+    
+      <p class="sidebar-p">I am a developer working in the field of CAT risk. This website is where i work through things I don't understand.</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="https://NathanielF.github.io/">Home</a></li>
+      
+        <li><a href="https://NathanielF.github.io/about/">About</a></li>
+      
+        <li><a href="https://NathanielF.github.io/contact/">Get in touch</a></li>
+      
+        <li><a href="https://NathanielF.github.io/blog/">Blog</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  <a href="https://www.facebook.com/nathaniel.forde" data-animate-hover="pulse" class="external facebook">
+    <i class="fa fa-facebook"></i>
+  </a>
+  
+  
+  
+  
+  
+  <a href="mailto:nathaniel.forde@gmail.com" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  <a href="https://www.linkedin.com/in/nathaniel-forde-2477a265/" data-animate-hover="pulse">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  
+  
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Nathaniel Forde
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="../../">Randomly Jittered</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Why is OLS BLUE?</h1>
+         
+
+<p>There is an aesthetic discipline to mathematics as much as there is an expectation of rigour. We shall attempt to showcase the relation between aesthetic dimension of a proof with its explanatory purchase.</p>
+
+<p>$\text{ &ldquo;If one proves the equality of two numbers } a \text{ and } b \text{ by showing}$
+$\text{ first that “} a \text{ is less than or equal to } b\text{” and then}$
+$\text{“}a \text{ is greater than or equal to } b \text{”,it is unfair, one should}$
+$\text{ instead show that they are really equal by disclosing the inner ground }$
+$\text{ for their equality.&rdquo; — Emmy Noether }$</p>
+
+<p>Taking Noether&rsquo;s aesthetic principle as our motivation we shall demonstrate the distinction in relation to the Ordinary Least Squares solution for a generic regression problem. First we will see a quick, but unenlightening proof and then we shall elaborate a more instructive proof of the same. Ultimately we shall then use our result to prove the Gauss Markov theorem. The Linear model:</p>
+
+<p>$$ Y = X\hat{\beta} + \epsilon $$
+assumes that $Y$ can be estimated by a linear combination of $X$ with a series of unknown weights $\beta$ where $$SSE = e&rsquo;e = \lVert Y - X\hat{\beta} \rVert^2 = Y&rsquo;Y - 2\hat{\beta}&lsquo;X&rsquo;Y + \hat{\beta}&lsquo;X&rsquo;X\hat{\beta}$$</p>
+
+<p>where the goal is to find $\beta$ to minimise SSE.</p>
+
+<p>The OLS solution  is $\hat{\beta} = (X&rsquo;X)^{-1}X&rsquo;Y$.Why?</p>
+
+<h3 id="the-beta-estimate-one-answer">The beta estimate: One Answer</h3>
+
+<p>Proof: $\hat{\beta} = (X&rsquo;X)^{-1}X&rsquo;Y$ minimises SSE.</p>
+
+<ul>
+<li>Note that: $\frac{\partial \hat{\beta}&lsquo;(X&rsquo;Y)}{\partial \hat{\beta}} = X&rsquo;Y \text{ and } \frac{\partial \hat{\beta}&lsquo;X&rsquo;X\hat{\beta} }{\partial \hat{\beta}} = 2X&rsquo;X\hat{\beta}$</li>
+<li>Set:  $\frac{\partial(e&rsquo;e)}{\partial \hat{\beta}} = \frac{ \partial [Y&rsquo;Y - 2\hat{\beta}&lsquo;X&rsquo;Y + \hat{\beta}&lsquo;X&rsquo;X\hat{\beta}]}{\partial \hat{\beta}} = 0 - 2X&rsquo;Y + 2X&rsquo;X\hat{\beta} \text{ := }0$</li>
+<li>$\Rightarrow X&rsquo;Y = X&rsquo;X\hat{\beta}$</li>
+<li>$\Rightarrow (X&rsquo;X)^{-1}X&rsquo;Y = \hat{\beta}$</li>
+</ul>
+
+<p>This proof is too quick, moreover it relies on knowledge of matrix calculus. In itself not a sin, but the use made of matrix calculus is not illustrative of any structural relationship between the components of our equation. Why have discovered that $\hat{\beta}$ is the magnitude that minimises the square loss function, but we have not seen why this must be the case.</p>
+
+<h3 id="linear-algebra-ols-preliminaries">Linear Algebra: OLS Preliminaries</h3>
+
+<p>Suppose X is $n \times p$ with rank p &lt; n and $( Y_{n \times 1}$. Let $ \hat{\beta} = (X^{&lsquo;}X)^{-1}X^{&rsquo;}Y $ and  $e = Y - X\hat{\beta}$, we shall show algebraically that $\hat{\beta} = \text{arg } \text{min}(SSE)$ and that $\hat{\beta}$ is $BLUE$.</p>
+
+<p>$$X&rsquo;X  = \sum_{k= 1}^{n} x&rsquo;_{pn}x_{np}$$</p>
+
+<p>$$\hat{\beta} = (X&rsquo;X)^{-1}_{p \times p}X&rsquo;_{p \times n}Y_{n \times 1} = [(X&rsquo;X)^{-1}X&rsquo;Y]_{p \times 1}$$</p>
+
+<p>$$X_{n \times p}\hat{\beta}_{p \times 1} = X\hat{\beta}_{n \times 1}$$</p>
+
+<p>$$e_{n \times 1} = [Y_{n \times 1} - (X \hat{\beta})_{n \times 1}] $$</p>
+
+<p>In the simple case we have the following image:</p>
+
+<p><img src ="/projects/OLS/simpleOLS.jpg" style="width: 500px;/img></p>
+
+<h3 id="orthogonal-vectors">Orthogonal Vectors</h3>
+
+<p>In an analogy with the Pythagorean theorem we have two orthogonal (perpindicular) vectors whenever the squared norm (distance) between them is such that $$\lVert v \rVert^2 + \lVert w \rVert^2 = \lVert v - w \rVert^2$$
+$$ a^2 + b^2 = c^2$$</p>
+
+<ul>
+<li>$(v_{1}^{2} + v_{2}^{2} &hellip;) + (w_{1}^{2} + w_{2}^{2} &hellip;.) = (v_{1} - w_{1})^2 +&hellip;$</li>
+<li>$(v_{1}^{2} + v_{2}^{2} &hellip;) + (w_{1}^{2} + w_{2}^{2}&hellip;) + &hellip; =  (v_{1}^{2} - 2v_{1}w_{1} + w_{1}^2) + &hellip;$</li>
+<li>$\Rightarrow (0) + (0) .. =   - 2v_{1}w_{1} +  - 2v_{2}w_{2} &hellip; \Rightarrow 0 = \textbf{v} \cdot \textbf{w}.$</li>
+</ul>
+
+<p>$\textbf{Definition}: \textbf{v}$ is orthogonal to $\textbf{w} \Leftrightarrow \textbf{v} \cdot \textbf{w} = 0$</p>
+
+<p>$\textbf{w}$ is orthogonal to $X \Leftrightarrow \forall(\textbf{x} \in X) \textbf{w} \perp \textbf{x}$</p>
+
+<h3 id="the-triangle-inequality">The Triangle Inequality</h3>
+
+<p>If $A, B$ are $n \times 1$ then  $(L3): \lVert A - B \rVert^{2} = \lVert A \rVert^{2} - \lVert B \rVert^2 \Leftrightarrow A \perp B$</p>
+
+<p>Proof (Triangle): First note
+$$A&rsquo;B = a^{&lsquo;}_{1}b_{1} + a^{&lsquo;}_{2}b_{2} + &hellip;. + a^{&lsquo;}_{n}b_{n} = \sum_{i = 1}^{n}a^{&lsquo;}_{i}b_{i} = \sum_{i = 1}^{n} b^{&lsquo;}_{i}a_{i} = B&rsquo;A$$
+Hence:</p>
+
+<ul>
+<li>$\lVert A - B \rVert^{2} = (A - B)^{&lsquo;}(A - B)$</li>
+<li>$= A&rsquo; + (-B)&lsquo;(A + (-B))$</li>
+<li>$= A&rsquo;A - A&rsquo;B - B&rsquo;A - B&rsquo;B$</li>
+<li>$\Rightarrow A&rsquo;A - B&rsquo;B - 2A&rsquo;B =  \lVert A \rVert^{2} - \lVert B \rVert^2 \Leftrightarrow A \perp B$</li>
+</ul>
+
+<h2 id="the-heart-of-the-proof">The Heart of the Proof</h2>
+
+<p><img src="../../projects/OLS/Pythagorean.gif" alt="The Pythagorean Relation" /></p>
+
+<h3 id="orthogonal-errors">Orthogonal Errors</h3>
+
+<p>(T1)   $$ \hat{\beta} = (X&rsquo;X)^{-1}X&rsquo;Y \Rightarrow e \perp X \hat{\beta}$$</p>
+
+<p>Proof  (T1)
+First note that:</p>
+
+<ul>
+<li>$X&rsquo;X_{p \times p} \hat{\beta}_{p \times 1}$</li>
+<li>$= X&rsquo;X(X&rsquo;X)^{-1}X&rsquo;Y$</li>
+<li>$= X&rsquo;Y$</li>
+</ul>
+
+<p>Now observe that:</p>
+
+<ul>
+<li>$X&rsquo;e = X&rsquo;(Y - X \hat{\beta})$</li>
+<li>$= X&rsquo;Y - X&rsquo;X \hat{\beta}$</li>
+<li>$= X&rsquo;Y - X&rsquo;Y = \textbf{0}_{p \times 1}$</li>
+</ul>
+
+<p>We have established that $X&rsquo;e = \textbf{0}_{p \times 1}$</p>
+
+<p>To complete the proof observe that:</p>
+
+<ul>
+<li>$(X\hat{\beta})&lsquo;e$</li>
+<li>$= \hat{\beta}&rsquo;_{1 \times p}[X&rsquo;_{p \times n}e_{n \times 1}]$ by (Transposition)</li>
+<li>$= \hat{\beta}&rsquo;_{1 \times p} \textbf{0}_{p \times 1} = 0$</li>
+</ul>
+
+<p>$$\hat{\beta} = (X&rsquo;X)^{-1}X&rsquo;Y \Rightarrow e \perp X \Rightarrow  e \perp X \hat{\beta}$$</p>
+
+<h3 id="the-pythagorean-relation">The Pythagorean Relation</h3>
+
+<p>(T2)  $$ \lVert Y \rVert^{2}  =  \lVert X\hat{\beta} \rVert^{2} + \lVert e \rVert^{2} $$</p>
+
+<p>Proof (T2) The Pythagorean Relation Holds</p>
+
+<ul>
+<li>$\lVert X\hat{\beta} + e \rVert^{2}$</li>
+<li>$= (X\hat{\beta} + e)&lsquo;(X\hat{\beta} + e)$</li>
+<li>$= X\hat{\beta}&lsquo;X\hat{\beta} +X\hat{\beta}&lsquo;e + e&rsquo;X\hat{\beta} + e&rsquo;e$</li>
+<li>$= (X\hat{\beta})&lsquo;X\hat{\beta} + e&rsquo;e$ By (Triangle) and (T1)</li>
+<li>$= \lVert X\hat{\beta} \rVert^{2}  + \lVert Y - X\hat{\beta} \rVert^{2}$</li>
+<li>$= \lVert X\hat{\beta} + Y - X\hat{\beta} \rVert^{2}$ By (Triangle)</li>
+<li>$= \lVert Y \rVert^2$</li>
+</ul>
+
+<p><img src="../../projects/OLS/OLSThreeDimensions.jpg" alt="OLS" /></p>
+
+<h3 id="the-relation-to-alternative-estimates">The Relation to Alternative Estimates</h3>
+
+<p>(T3) If $\bar{\beta}$ is $p \times 1$, then $\lVert Y - X\bar{\beta} \rVert^{2}  =  \lVert Y - X\hat{\beta} \rVert^{2} + \lVert X(\hat{\beta} - \bar{\beta}) \rVert^{2}$</p>
+
+<p>Proof (T3)</p>
+
+<ul>
+<li>$\lVert Y - X \hat{\beta} \rVert^{2} +  \lVert X (\hat{\beta} - \bar{\beta}) \rVert^{2}$</li>
+<li>$=  \lVert e \rVert^{2} +  \lVert X (\hat{\beta} - \bar{\beta}) \rVert^{2}$</li>
+<li>$= \lVert e + X (\hat{\beta} - \bar{\beta}) \rVert^{2}$ since $e \perp X (\hat{\beta} - \bar{\beta})$</li>
+<li>$= \lVert (e + X \hat{\beta}) - X\bar{\beta}) \rVert^{2}$</li>
+<li>$= \lVert Y - X\bar{\beta}) \rVert^{2}$ by (T2)</li>
+</ul>
+
+<h3 id="the-best-approximation-theorem">The Best Approximation Theorem</h3>
+
+<p>(T4) The Best Approximation Theorem</p>
+
+<ul>
+<li>$(T3) \Rightarrow  min\lVert Y - X\bar{\beta}) \rVert^{2} = min\Big[\lVert Y - X\hat{\beta} \rVert^{2} + \lVert X(\hat{\beta} - \bar{\beta}) \rVert^{2}\Big]$</li>
+</ul>
+
+<p>But then choosing $\bar{\beta} = \hat{\beta}$ gives us:</p>
+
+<p>$$ min\Big[\lVert Y - X\hat{\beta} \rVert^{2} + \lVert \textbf{0} \rVert^{2}\Big]$$</p>
+
+<p>Choosing either $\bar{\beta}  &gt; \hat{\beta}$ or $\bar{\beta} &lt; \hat{\beta}$ gives us:</p>
+
+<p>$$ min\Big[\lVert Y - X\hat{\beta} \rVert^{2} + \lVert \pm \textbf{n} \rVert^{2}\Big]$$</p>
+
+<h3 id="closing-the-cirlce">Closing the cirlce</h3>
+
+<p>$$ (T5): \forall \bar{\beta}_{p \times 1} [(Y - X\bar{\beta}) \perp X ] \Rightarrow \bar{\beta} = \hat{\beta} $$</p>
+
+<ul>
+<li>$(Y - X\bar{\beta}) \perp X$</li>
+<li>$\Rightarrow X&rsquo;(Y - X\bar{\beta}) = 0$</li>
+<li>$\Rightarrow X&rsquo;Y - X&rsquo;X\bar{\beta} = 0$</li>
+<li>$\Rightarrow X&rsquo;X\bar{\beta} = X&rsquo;Y$</li>
+<li>$\Rightarrow \bar{\beta} = (X&rsquo;X)^{-1}X&rsquo;Y = \hat{\beta}$</li>
+</ul>
+
+<p>$$ \hat{\beta} = (X&rsquo;X)^{-1}X&rsquo;Y  \Leftrightarrow e \perp X $$</p>
+
+<h3 id="covariance-and-random-variables">Covariance and Random Variables</h3>
+
+<p>$$cov(X) = E((X - \mu_{X})(X - \mu_{X})&lsquo;)$$</p>
+
+<p>(L6) $$cov(AX) = Acov(X)A^{&lsquo;} \text{ where X is random and A is fixed }$$</p>
+
+<ul>
+<li>$cov(AX)$</li>
+<li>$= E((AX - E(AX) (AX - E(AX)^{&lsquo;}))$</li>
+<li>$= E( (AX - AE(X))(AX - AE(X))^{&lsquo;})$ by Linearity of E</li>
+<li>$= E(A(X - E(X)) (A(X -E(X)))^{&lsquo;})$</li>
+<li>$=  E(A(X - E(X))((X -E(X))&lsquo;A&rsquo;))$ by (L1)</li>
+<li>$= A cov(X)A&rsquo;$</li>
+</ul>
+
+<p>(L7) $$cov(U + u) = cov(U)$$ where u is a vector of constants and U is random.</p>
+
+<ul>
+<li>$cov(U + u)$</li>
+<li>$= E((U + u - E(U + u))(U + u - E(U + u))&lsquo;)$</li>
+<li>$= E((U + u - [E(U) + u]))(U + u - [E(U) + u])&lsquo;)$</li>
+<li>$= E((U - E(U) + u - u))(U - E(U) + u - u)&lsquo;)$</li>
+<li>$= cov(U)$</li>
+</ul>
+
+<h3 id="covariance-and-random-variables-1">Covariance and Random Variables</h3>
+
+<p>(L8) Assume $$ X \text{ is random }, c_{p \times 1}, \text{ then } var(c&rsquo; X) = c&rsquo;cov(X)c $$</p>
+
+<ul>
+<li>$var(c&rsquo;X) = E((c&rsquo;X) - E(c&rsquo;X)((c&rsquo;X - E(c&rsquo;X))&lsquo;)$</li>
+<li>$= E((c&rsquo;X) - c&rsquo;E(X)((c&rsquo;X - c&rsquo;E(X))&lsquo;)$</li>
+<li>$= E(c&rsquo;X -  c&rsquo;E(X))(c&rsquo;X - c&rsquo;E(X))&lsquo;$</li>
+<li>$= c&rsquo;E(X - E(X))(X&rsquo; - E(X)&lsquo;)c)$
+-$ = c&rsquo;E(X - E(X))(X&rsquo; - E)$</li>
+<li>$= c&rsquo;cov(X)c$</li>
+</ul>
+
+<h3 id="the-gauss-markov-theorem">The Gauss Markov Theorem</h3>
+
+<p><img src="../../Users/nathanielforde/Desktop/Data Science/variance.jpg" alt="" />
+Assume that:</p>
+
+<p>$$  (1) \, Y = (X \beta + \epsilon)_{n \times 1} \qquad   (2) \,  E( \epsilon | X) = X^{&lsquo;}\epsilon = 0_{n \times 1} $$
+and
+$$(3) \, cov(\epsilon | X) =  \sigma^{2} I_{n \times n}  \qquad (4) \, \epsilon \text{ is independent of } X $$</p>
+
+<p>$\text{The Gauss Markov Theorem:}$ The OLS estimate is the best linear unbiased estimate. In the sense that the estimate has the least variance of all candidate unbiased linear estimates</p>
+
+<p>By assumption (1) we have $Y  = X\beta + \epsilon$ so then</p>
+
+<ul>
+<li>$\hat{\beta} = (X^{&lsquo;}X)^{-1}X^{&rsquo;}Y$</li>
+<li>$= (X^{&lsquo;}X)^{-1}X^{&rsquo;}(X\beta + \epsilon)$</li>
+<li>$= (X^{&lsquo;}X)^{-1}X^{&rsquo;}X\beta + (X^{&lsquo;}X)^{-1}X^{&rsquo;}\epsilon$</li>
+<li>$= \beta + (X^{&lsquo;}X)^{-1}X^{&rsquo;}\epsilon$</li>
+</ul>
+
+<p>Hence (T6): $\hat{\beta} \text{ is unbiased, } E(\hat{\beta} | X) = \beta$</p>
+
+<ul>
+<li>$E(\hat{\beta} | X)$</li>
+<li>$=  \beta + (X^{&lsquo;}X)^{-1}X^{&rsquo;}\epsilon$</li>
+<li>$= \beta + (X^{&lsquo;}X)^{-1}E(\epsilon | X)$</li>
+<li>$= \beta$ by assumption (2)</li>
+</ul>
+
+<p>(T7): $$ cov(\hat{\beta} | X)  =  \sigma^{2}(X&rsquo;X)^{-1}$$</p>
+
+<ul>
+<li>$cov(\hat{\beta} | X)  =  cov(\beta + (X^{&lsquo;}X)^{-1}X^{&rsquo;}\epsilon)$</li>
+<li>$= cov((X^{&lsquo;}X)^{-1}X^{&rsquo;}\epsilon)$ by (L7)</li>
+<li>$= (X&rsquo;X)^{-1}X&rsquo;cov(\epsilon | X)X(X&rsquo;X)^{-1}$ by (L6), (L1)</li>
+<li>$= (X&rsquo;X)^{-1}X&rsquo;_{p \times n}\sigma^2I_{n\times n}X(X&rsquo;X)^{-1}$ by assumption (3)</li>
+<li>$= \sigma^2[(X&rsquo;X)^{-1}X&rsquo;X(X&rsquo;X)^{-1}]$ since $\sigma^2$ is a scalar</li>
+<li>$= \sigma^2(X&rsquo;X)^{-1}$</li>
+</ul>
+
+<p>(L9): $$ \bar{\beta} = ((X^{&lsquo;}X)^{-1}X^{&rsquo;} + D_{non-zero})Y \text{ is unbiased } \Rightarrow DX = 0$$</p>
+
+<ul>
+<li>$<a href="Xbeta + epsilon"> (X^{&lsquo;}X)^{-1}X^{&rsquo;} + D</a>$</li>
+<li>$[(X^{&lsquo;}X)^{-1}X^{&rsquo;} + D]X\hat{\beta} + [(X^{&lsquo;}X)^{-1}X^{&rsquo;} + D]\epsilon$</li>
+<li>$[(X^{&lsquo;}X)^{-1}X^{&rsquo;}X\hat{\beta} + DX\hat{\beta} + [(X^{&lsquo;}X)^{-1}X^{&rsquo;} + D]\epsilon$</li>
+<li>$\Rightarrow E(\bar{\beta} | X) = \beta \Rightarrow DX = 0$</li>
+</ul>
+
+<p>(T8) $$ \forall \bar{\beta}_{unbiased} \Big(cov(\bar{\beta}) = cov(\hat{\beta}) + \sigma^2DD&rsquo; \Big) $$</p>
+
+<ul>
+<li>$cov(\bar{\beta}) = cov(((X^{&lsquo;}X)^{-1}X^{&rsquo;} + D_{non zero})Y)$</li>
+<li>$= ((X^{&lsquo;}X)^{-1}X^{&rsquo;} + D)cov(Y)((X^{&lsquo;}X)^{-1}X^{&rsquo;} + D)&lsquo;$ by (L6)</li>
+<li>$= ((X^{&lsquo;}X)^{-1}X^{&rsquo;} + D) \sigma^2 ((X^{&lsquo;}X)^{-1}X^{&rsquo;} + D)&lsquo;$ by assumption (1)</li>
+<li>$= \sigma^2((X^{&lsquo;}X)^{-1}X^{&rsquo;} + D) ((X^{&lsquo;}X)^{-1}X^{&rsquo;} + D)&lsquo;$</li>
+<li>$= \sigma^2((X^{&lsquo;}X)^{-1}X^{&rsquo;} + D) (X(X^{&lsquo;}X)^{-1} + D&rsquo;)$ by transposition</li>
+<li>$\sigma^2[(X&rsquo;X)^{-1}X&rsquo;X(X&rsquo;X)^{-1} + DX(X&rsquo;X)^{-1} + (X&rsquo;X)^{-1}X&rsquo;D&rsquo; +DD&rsquo;]$</li>
+<li>$= \sigma^2[(X&rsquo;X)^{-1} + DD&rsquo;] = cov(\hat{\beta}) + \sigma^2DD&rsquo;$ since $DX = 0$ by L8</li>
+</ul>
+
+<p>(L10)</p>
+
+<p>$A<em>{n \times p}A</em>{p \times n}&rsquo; \text{ is semi positive definite i.e for any suitable } x_{n \times 1}$
+$\text{we have } x&rsquo;AA&rsquo;x \geq 0$</p>
+
+<p>Consider $A&rsquo;x = y$</p>
+
+<ul>
+<li>$\Rightarrow x&rsquo;AA&rsquo;x = (A&rsquo;x)&lsquo;Ax = \lVert A&rsquo;x \rVert^2 = \lVert y \rVert^2 \geq 0$</li>
+<li>$\Rightarrow \sigma^2DD&rsquo; \text{ is semi positive definite }$</li>
+</ul>
+
+<p>(GM): Let $\sigma^2DD&rsquo;= DD&rsquo;$</p>
+
+<ul>
+<li>$var(l&rsquo;\bar{\beta}) = l&rsquo;cov(\bar{\beta})l$ by (L8)</li>
+<li>$= l&rsquo;[cov(\hat{\beta}) + D]l = l&rsquo;cov(\hat{\beta})l + l&rsquo;DD&rsquo;l$ by (T8)</li>
+<li>$= \Big( var(l&rsquo;\hat{\beta}) + \lVert D&rsquo;l \rVert \Big) \geq var(l&rsquo;\hat{\beta})$</li>
+</ul>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="https://NathanielF.github.io/js/jquery.min.js"></script>
+<script src="https://NathanielF.github.io/js/bootstrap.min.js"></script>
+<script src="https://NathanielF.github.io/js/jquery.cookie.js"> </script>
+<script src="https://NathanielF.github.io/js/ekko-lightbox.js"></script>
+<script src="https://NathanielF.github.io/js/jquery.scrollTo.min.js"></script>
+<script src="https://NathanielF.github.io/js/masonry.pkgd.min.js"></script>
+<script src="https://NathanielF.github.io/js/imagesloaded.pkgd.min.js"></script>
+<script src="https://NathanielF.github.io/js/owl.carousel.min.js"></script>
+<script src="https://NathanielF.github.io/js/front.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</body>
+</html>

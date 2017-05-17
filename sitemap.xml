@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://NathanielF.github.io/portfolio/perceptron/decisionpoints/</loc>
+    <lastmod>2017-05-08T08:22:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://NathanielF.github.io/portfolio/matrixalgebra/matrixmultiplication/</loc>
+    <lastmod>2017-05-08T08:22:07+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://NathanielF.github.io/contact/</loc>
+    <lastmod>2016-11-06T13:00:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://NathanielF.github.io/portfolio/ols/ols-and-the-gauss-markov-theorem/</loc>
+    <lastmod>2016-11-06T13:00:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://NathanielF.github.io/about/</loc>
+    <lastmod>2016-11-05T21:05:33+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://NathanielF.github.io/blog/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://NathanielF.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://NathanielF.github.io/portfolio/</loc>
+    <lastmod>2017-05-08T08:22:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://NathanielF.github.io/</loc>
+    <lastmod>2017-05-08T08:22:07+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://NathanielF.github.io/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://NathanielF.github.io/blog/ols-and-the-gauss-markov-theorem/</loc>
+  </url>
+  
+</urlset>

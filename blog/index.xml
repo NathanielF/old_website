@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blogs on Randomly Jittered</title>
+    <link>https://NathanielF.github.io/blog/</link>
+    <description>Recent content in Blogs on Randomly Jittered</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy;2017 Nathaniel Forde</copyright>
+    
+	<atom:link href="https://NathanielF.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Why is OLS BLUE?</title>
+      <link>https://NathanielF.github.io/blog/ols-and-the-gauss-markov-theorem/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://NathanielF.github.io/blog/ols-and-the-gauss-markov-theorem/</guid>
+      <description>There is an aesthetic discipline to mathematics as much as there is an expectation of rigour. We shall attempt to showcase the relation between aesthetic dimension of a proof with its explanatory purchase.
+$\text{ &amp;ldquo;If one proves the equality of two numbers } a \text{ and } b \text{ by showing}$ $\text{ first that “} a \text{ is less than or equal to } b\text{” and then}$ $\text{“}a \text{ is greater than or equal to } b \text{”,it is unfair, one should}$ $\text{ instead show that they are really equal by disclosing the inner ground }$ $\text{ for their equality.</description>
+    </item>
+    
+  </channel>
+</rss>

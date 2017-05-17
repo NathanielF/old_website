@@ -36,8 +36,7 @@
       <pubDate>Mon, 08 May 2017 08:22:07 +0100</pubDate>
       
       <guid>https://NathanielF.github.io/blog/ols-and-the-gauss-markov-theorem/</guid>
-      <description>There is an aesthetic discipline to mathematics as much as there is an expectation of rigour. We shall attempt to showcase the relation between aesthetic dimension of a proof with its explanatory purchase.
-$\text{ &amp;ldquo;If one proves the equality of two numbers } a \text{ and } b \text{ by showing}$ $\text{ first that “} a \text{ is less than or equal to } b\text{” and then}$ $\text{“}a \text{ is greater than or equal to } b \text{”,it is unfair, one should}$ $\text{ instead show that they are really equal by disclosing the inner ground }$ $\text{ for their equality.</description>
+      <description>There is an aesthetic discipline to mathematics as much as there is an expectation of rigour. We shall attempt to showcase the relation between aesthetic dimension of a proof with its explanatory purchase. We shall take as our example a standard proof used in regression analysis to find the slope of a line/plane which maps the trajectory of a series of observed points/locations along a trajectory. Given this problem we can draw a line/plane with the slope and it can be shown that this line (as a function of slope) is the best available line that can be drawn through our points of observation.</description>
     </item>
     
     <item>

@@ -139,7 +139,7 @@ assumes that $Y$ can be estimated by a linear combination of $X$ with a series o
 
 <p>In the simple case we have the following image:</p>
 
-<p><img src ="/projects/OLS/simpleOLS.jpg" style="width: 500px;/img></p>
+<p><img src ="/portfolio/OLS/simpleOLS.jpg" style="width: 500px;/img></p>
 
 <h3 id="orthogonal-vectors">Orthogonal Vectors</h3>
 
@@ -173,7 +173,7 @@ Hence:</p>
 
 <h2 id="the-heart-of-the-proof">The Heart of the Proof</h2>
 
-<p><img src="/projects/OLS/Pythagorean.gif" alt="The Pythagorean Relation" /></p>
+<p><img src="/porfolio/OLS/Pythagorean.gif" alt="The Pythagorean Relation" /></p>
 
 <h3 id="orthogonal-errors">Orthogonal Errors</h3>
 
@@ -224,7 +224,7 @@ First note that:</p>
 <li>$= \lVert Y \rVert^2$</li>
 </ul>
 
-<p><img src="/projects/OLS/OLSThreeDimensions.jpg" alt="OLS" /></p>
+<p><img src="/portfolio/OLS/OLSThreeDimensions.jpg" alt="OLS" /></p>
 
 <h3 id="the-relation-to-alternative-estimates">The Relation to Alternative Estimates</h3>
 
@@ -256,7 +256,7 @@ First note that:</p>
 
 <p>$$ min\Big[\lVert Y - X\hat{\beta} \rVert^{2} + \lVert \pm \textbf{n} \rVert^{2}\Big]$$</p>
 
-<h3 id="closing-the-cirlce">Closing the cirlce</h3>
+<h3 id="closing-the-circle">Closing the circle</h3>
 
 <p>$$ (T5): \forall \bar{\beta}_{p \times 1} [(Y - X\bar{\beta}) \perp X ] \Rightarrow \bar{\beta} = \hat{\beta} $$</p>
 
@@ -269,6 +269,8 @@ First note that:</p>
 </ul>
 
 <p>$$ \hat{\beta} = (X&rsquo;X)^{-1}X&rsquo;Y  \Leftrightarrow e \perp X $$</p>
+
+<p>This completes our demonstration. The OLS solution to the regression problem holds precisely because the errors are chosen as orthogonal to X. We will now make use of this fact to prove the Gauss Markov theorem which says that beta is the best unbiased linear estimate in the solution space, where we mean that the beta estimate is the best in the sense that it has the least variance.</p>
 
 <h3 id="covariance-and-random-variables">Covariance and Random Variables</h3>
 
@@ -310,8 +312,7 @@ First note that:</p>
 
 <h3 id="the-gauss-markov-theorem">The Gauss Markov Theorem</h3>
 
-<p><img src="/Users/nathanielforde/Desktop/Data Science/variance.jpg" alt="" />
-Assume that:</p>
+<p>Assume that:</p>
 
 <p>$$  (1) \, Y = (X \beta + \epsilon)_{n \times 1} \qquad   (2) \,  E( \epsilon | X) = X^{&lsquo;}\epsilon = 0_{n \times 1} $$
 and

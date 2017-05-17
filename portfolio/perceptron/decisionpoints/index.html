@@ -28,7 +28,7 @@
           <div class="row row-offcanvas row-offcanvas-left">
               <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
   <div class="sidebar-content">
-    <h1 class="sidebar-heading"><a href="../../../">Randomly Jittered</a></h1>
+    <h1 class="sidebar-heading"><a href="/">Randomly Jittered</a></h1>
     
       <p class="sidebar-p">I am a developer working in the field of CAT risk. This website is where i work through things I don't understand.</p>
     
@@ -86,7 +86,7 @@
 <div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
   <div class="small-navbar visible-xs">
   <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
-  <h1 class="small-navbar-heading"><a href="../../../">Randomly Jittered</a></h1>
+  <h1 class="small-navbar-heading"><a href="/">Randomly Jittered</a></h1>
 </div>
 
   <div class="row">
@@ -99,7 +99,7 @@ While the brain-model analogy is far from perfect and breaks down somewhat in th
 <p>We will build the perceptron algorithm from the basic buildings blocks of the Golang programming language.The exercise is intended as much to showcase the Go language as it is to explore the perceptron algorithm.</p>
 
 <p>In an image the processing model follows this trajectory:
-<img src="../../../projects/perceptron/perceptron_schematic.png" alt="The perceptron" /></p>
+<img src="/portfolio/perceptron/perceptron_schematic.png" alt="The perceptron" /></p>
 <div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">import</span> <span style="color: #4070a0">&quot;fmt&quot;</span>
 
 <span style="color: #007020; font-weight: bold">func</span> dotproduct(input []<span style="color: #902000">float64</span>, weights []<span style="color: #902000">float64</span>) <span style="color: #902000">float64</span> {
@@ -137,7 +137,7 @@ While the brain-model analogy is far from perfect and breaks down somewhat in th
 <p>In the case where we aim to refine our predictive capacity we can train our algorithm on the historic dataset. Given a set of historic observations (e.g. the length and width of a petal or sepal in a given iris), we can identfy those combinations of length and width which are associated with different species of iris. In this context this means that we run our prediction algorithm on the training data and observe the difference (delta) between the prediction and the actual species as noted in the historical record. Just as we would get better at recognising the flowers if we were penalised for every incorrect identification.
 Ultimately the idea is that we use this delta to refine the weights we assign to each feature upon encountering a false prediction. So long as the dataset is linearly seperable, if we refine each weight as we iterate this process across each observation we will ultimately converge on a set of weights which result in no prediction errors.</p>
 
-<p><img src="../../../projects/perceptron/Cycle.png" alt="The Cycle" /></p>
+<p><img src="/portfolio/perceptron/Cycle.png" alt="The Cycle" /></p>
 
 <p>This raises the question of how we should update the weights with respect to the discovered delta?</p>
 
@@ -260,7 +260,7 @@ Input weight loop 0 : []</p>
 
 <p>Here we can see that the perceptron algorithm converges after five iterations, and indeed we can plot the decision boundary in two dimensions based on the discovered weights. Crucially the decision boundary does indeed seperate the two species of iris.</p>
 
-<p><img src="../../../projects/perceptron/iris.Rplot.png" alt="The Cycle" /></p>
+<p><img src="/portfolio/perceptron/iris.Rplot.png" alt="The Cycle" /></p>
 
          
       </div>

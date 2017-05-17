@@ -7,6 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2017 Nathaniel Forde</copyright>
+    <lastBuildDate>Mon, 08 May 2017 08:22:07 +0100</lastBuildDate>
     
 	<atom:link href="https://NathanielF.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +15,7 @@
     <item>
       <title>Why is OLS BLUE?</title>
       <link>https://NathanielF.github.io/blog/ols-and-the-gauss-markov-theorem/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 08 May 2017 08:22:07 +0100</pubDate>
       
       <guid>https://NathanielF.github.io/blog/ols-and-the-gauss-markov-theorem/</guid>
       <description>There is an aesthetic discipline to mathematics as much as there is an expectation of rigour. We shall attempt to showcase the relation between aesthetic dimension of a proof with its explanatory purchase.

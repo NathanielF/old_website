@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2017 Nathaniel Forde</copyright>
-    <lastBuildDate>Mon, 08 May 2017 08:22:07 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 26 May 2017 08:22:07 +0100</lastBuildDate>
     
 	<atom:link href="https://NathanielF.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The KNN algorithm</title>
+      <link>https://NathanielF.github.io/blog/knn/</link>
+      <pubDate>Fri, 26 May 2017 08:22:07 +0100</pubDate>
+      
+      <guid>https://NathanielF.github.io/blog/knn/</guid>
+      <description>In this post we will implement the K-Nearest Neighbour classification algorithm. The idea is simply stated that &amp;ldquo;we are the company we keep&amp;rdquo;. The algorithm surveys an entire known population and compares each candidate to that population to determine where (along a series of metrics) that candidate best fits. Once we have ascertained a measure of fit we further identify the candidate with the most common class of the members of the population nearest to them in the population.</description>
+    </item>
     
     <item>
       <title>Why is OLS BLUE?</title>
@@ -19,6 +28,15 @@
       
       <guid>https://NathanielF.github.io/blog/ols-and-the-gauss-markov-theorem/</guid>
       <description>There is an aesthetic discipline to mathematics as much as there is an expectation of rigour. We shall attempt to showcase the relation between aesthetic dimension of a proof with its explanatory purchase. We shall take as our example a standard proof used in regression analysis to find the slope of a line/plane which maps the trajectory of a series of observed points/locations along a trajectory. Given this problem we can draw a line/plane with the slope and it can be shown that this line (as a function of slope) is the best available line that can be drawn through our points of observation.</description>
+    </item>
+    
+    <item>
+      <title>Conditional Probability and Monty Hall</title>
+      <link>https://NathanielF.github.io/blog/montyhall/</link>
+      <pubDate>Sun, 08 May 2016 08:22:07 +0100</pubDate>
+      
+      <guid>https://NathanielF.github.io/blog/montyhall/</guid>
+      <description>Probability is difficult because it is hard to properly model the relationships between events, and the facts even when recognised are unintuitive. Conditional probability is a tool for assessing the probability of a hypothesis given some evidence. To represent this mathematically we have to distinguish over all possible events, and assess the frequency of when the hypothesis is confirmed within the subset of possible worlds where our evidence is deemed to have occurred.</description>
     </item>
     
   </channel>

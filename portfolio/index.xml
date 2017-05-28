@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2017 Nathaniel Forde</copyright>
-    <lastBuildDate>Mon, 08 May 2017 08:22:07 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 26 May 2017 08:22:07 +0100</lastBuildDate>
     
 	<atom:link href="https://NathanielF.github.io/portfolio/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The KNN algorithm</title>
+      <link>https://NathanielF.github.io/portfolio/knn/</link>
+      <pubDate>Fri, 26 May 2017 08:22:07 +0100</pubDate>
+      
+      <guid>https://NathanielF.github.io/portfolio/knn/</guid>
+      <description>In this post we will implement the K-Nearest Neighbour classification algorithm. The idea is simply stated that &amp;ldquo;we are the company we keep&amp;rdquo;. The algorithm surveys an entire known population and compares each candidate to that population to determine where (along a series of metrics) that candidate best fits. Once we have ascertained a measure of fit we further identify the candidate with the most common class of the members of the population nearest to them in the population.</description>
+    </item>
     
     <item>
       <title>Decision Boundaries</title>

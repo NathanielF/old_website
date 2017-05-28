@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dashboards on Randomly Jittered</title>
+    <link>https://NathanielF.github.io/dashboards/</link>
+    <description>Recent content in Dashboards on Randomly Jittered</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy;2017 Nathaniel Forde</copyright>
+    <lastBuildDate>Fri, 26 May 2017 08:22:07 +0100</lastBuildDate>
+    
+	<atom:link href="https://NathanielF.github.io/dashboards/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dashboards</title>
+      <link>https://NathanielF.github.io/dashboards/dashboards/</link>
+      <pubDate>Fri, 26 May 2017 08:22:07 +0100</pubDate>
+      
+      <guid>https://NathanielF.github.io/dashboards/dashboards/</guid>
+      <description>Here we can find the latest collection of dashboards.
+Iris</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://NathanielF.github.io/dashboards/flex/flex/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://NathanielF.github.io/dashboards/flex/flex/</guid>
+      <description>Dashboard Example window.FlexDashboardComponents = [];          /* Dashboard CSS from Keen IO Dashboards (https://github.com/keen/dashboards) */ body { background: #f2f2f2; padding: 60px 0 0 8px; /* padding-top overridden by theme */ } body hr { border-color: #d7d7d7; margin: 10px 0; } .navbar-inverse .navbar-nav  li  a, .navbar .navbar-brand { text-decoration: none; } .navbar-logo { margin-top: 1px; } .navbar-logo img { margin-right: 12px; } .</description>
+    </item>
+    
+  </channel>
+</rss>

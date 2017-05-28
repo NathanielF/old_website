@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>The KNN algorithm</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/owl.carousel.css">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/owl.theme.css">
+
+
+  <link href="https://NathanielF.github.io/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="https://NathanielF.github.io/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="https://NathanielF.github.io/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="/">Randomly Jittered</a></h1>
+    
+      <p class="sidebar-p">I am a developer working in the field of CAT risk. This website is where i work through things I don't understand.</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="https://NathanielF.github.io/">Home</a></li>
+      
+        <li><a href="https://NathanielF.github.io/about/">About</a></li>
+      
+        <li><a href="https://NathanielF.github.io/contact/">Get in touch</a></li>
+      
+        <li><a href="https://NathanielF.github.io/blog/">Blog</a></li>
+      
+        <li><a href="https://NathanielF.github.io/dashboards/">Dashboards</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  <a href="https://www.facebook.com/nathaniel.forde" data-animate-hover="pulse" class="external facebook">
+    <i class="fa fa-facebook"></i>
+  </a>
+  
+  
+  
+  
+  
+  <a href="mailto:nathaniel.forde@gmail.com" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  <a href="https://www.linkedin.com/in/nathaniel-forde-2477a265/" data-animate-hover="pulse">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  
+  
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Nathaniel Forde
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="/">Randomly Jittered</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>The KNN algorithm</h1>
+         <p>In this post we will implement the K-Nearest Neighbour classification algorithm. The idea is simply stated that &ldquo;we are the company we keep&rdquo;. The algorithm surveys an entire known population and compares each candidate to that population to determine where (along a series of metrics) that candidate best fits. Once we have ascertained a measure of fit we further identify the candidate with the most common class of the members of the population nearest to them in the population. At the crudest level of interpretation you can think of this algorithm as making a judgement based on stereotype. If you live in the wealthy neighborhood, you&rsquo;re probably wealthy and conversely if you&rsquo;re from the poor neighborhood you&rsquo;re probably poor.</p>
+
+<p>One of the challenges implementing this reasoning in Golang comes from the fact that our functions are staticly typed and in principle the algorithm is data-type agnostic. We can compare different populations using different distance measures. So for instance if we wanted to compare text snippets we could use hamming&rsquo;s distance measure, while if we&rsquo;re comparing numeric data euclid&rsquo;s measure of distance is more appropriate. However I have yet to find an elegant way to write a data-type agnostic knn algorithm without recycling code. We elaborate below:</p>
+
+<p>As normal we begin with defining a series of helper functions:</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">package</span> main
+
+<span style="color: #007020; font-weight: bold">import</span> (
+	<span style="color: #4070a0">&quot;encoding/csv&quot;</span>
+	<span style="color: #4070a0">&quot;fmt&quot;</span>
+	<span style="color: #4070a0">&quot;log&quot;</span>
+	<span style="color: #4070a0">&quot;math&quot;</span>
+	<span style="color: #4070a0">&quot;math/rand&quot;</span>
+	<span style="color: #4070a0">&quot;os&quot;</span>
+	<span style="color: #4070a0">&quot;sort&quot;</span>
+	<span style="color: #4070a0">&quot;strconv&quot;</span>
+)
+
+<span style="color: #007020; font-weight: bold">func</span> dotproduct(input []<span style="color: #902000">float64</span>, weights []<span style="color: #902000">float64</span>) <span style="color: #902000">float64</span> {
+	sum <span style="color: #666666">:=</span> <span style="color: #40a070">0.0</span>
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(input); i<span style="color: #666666">++</span> {
+		sum = sum <span style="color: #666666">+</span> (input[i] <span style="color: #666666">*</span> weights[i])
+	}
+	<span style="color: #007020; font-weight: bold">return</span> sum
+}
+
+<span style="color: #007020; font-weight: bold">func</span> norm(input []<span style="color: #902000">float64</span>) <span style="color: #902000">float64</span> { <span style="color: #60a0b0; font-style: italic">//analogue of line length in multi-dimensional setting</span>
+	sumOfsquare <span style="color: #666666">:=</span> <span style="color: #40a070">0.0</span>
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(input); i<span style="color: #666666">++</span> {
+		sumOfsquare <span style="color: #666666">+=</span> input[i] <span style="color: #666666">*</span> input[i]
+	}
+	<span style="color: #007020; font-weight: bold">return</span> math.Sqrt(sumOfsquare)
+}
+
+<span style="color: #007020; font-weight: bold">func</span> euclidistance(input []<span style="color: #902000">float64</span>, input2 []<span style="color: #902000">float64</span>) <span style="color: #902000">float64</span> {
+	p <span style="color: #666666">:=</span> norm(input2) <span style="color: #666666">*</span> norm(input2)
+	q <span style="color: #666666">:=</span> norm(input) <span style="color: #666666">*</span> norm(input)
+	l <span style="color: #666666">:=</span> p <span style="color: #666666">+</span> q <span style="color: #666666">-</span> <span style="color: #40a070">2</span><span style="color: #666666">*</span>dotproduct(input2, input)
+	<span style="color: #007020; font-weight: bold">return</span> math.Sqrt(l)
+}
+
+<span style="color: #007020; font-weight: bold">func</span> hamming(string1 []<span style="color: #902000">string</span>, string2 []<span style="color: #902000">string</span>) <span style="color: #902000">float64</span> {
+	dist <span style="color: #666666">:=</span> <span style="color: #40a070">0.0</span>
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(string1); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">if</span> string1[i] <span style="color: #666666">!=</span> string2[i] {
+			dist<span style="color: #666666">++</span>
+		}
+	}
+	<span style="color: #007020; font-weight: bold">return</span> dist
+}
+</pre></div>
+
+<p>Now since we will be comparing each new datapoint to an entire population we will define a structure on which to record our collected measures. Crucially, we will need to rank and sort these measurements so we need to define a comparison measurement on this data structure. Fortunately we can use the fact that Golang&rsquo;s sort functions are well defined on any structure which exhibits methods of swapping, ordering and length measurement. For these are the fundamental operations required to sort any list.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">type</span> ordererdPair <span style="color: #007020; font-weight: bold">struct</span> {
+	number <span style="color: #902000">float64</span>
+	class  <span style="color: #902000">string</span>
+}
+<span style="color: #007020; font-weight: bold">type</span> sliceOfOrderedPair []ordererdPair
+
+<span style="color: #007020; font-weight: bold">func</span> (s sliceOfOrderedPair) Len() <span style="color: #902000">int</span>      { <span style="color: #007020; font-weight: bold">return</span> <span style="color: #007020">len</span>(s) }
+<span style="color: #007020; font-weight: bold">func</span> (s sliceOfOrderedPair) Swap(i, j <span style="color: #902000">int</span>) { s[i], s[j] = s[j], s[i] }
+<span style="color: #007020; font-weight: bold">func</span> (s sliceOfOrderedPair) Less(i, j <span style="color: #902000">int</span>) <span style="color: #902000">bool</span> {
+	<span style="color: #007020; font-weight: bold">return</span> s[i].number &lt; s[j].number
+}
+</pre></div>
+
+<p>With this in place we have ensured that our sliceofOrderedPair data-type satisfies the sort-interface.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">func</span> comparison(candidate []<span style="color: #902000">float64</span>, population [][]<span style="color: #902000">float64</span>, popClass []<span style="color: #902000">string</span>) sliceOfOrderedPair {
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(candidate)</span>
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(population)</span>
+	<span style="color: #007020; font-weight: bold">var</span> unSorted sliceOfOrderedPair
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(unSorted)</span>
+	<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(population); j<span style="color: #666666">++</span> {
+		dist <span style="color: #666666">:=</span> euclidistance(candidate, population[j])
+		class <span style="color: #666666">:=</span> popClass[j]
+		pair <span style="color: #666666">:=</span> ordererdPair{dist, class}
+		unSorted = <span style="color: #007020">append</span>(unSorted, pair)
+	}
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(unSorted)</span>
+	sort.Sort(unSorted)
+	sorted <span style="color: #666666">:=</span> unSorted
+	<span style="color: #007020; font-weight: bold">return</span> sorted
+}
+</pre></div>
+
+<p>Here we implement a comparison function for a given candidate against the entire population. We have chosen to use the euclidean distance measure and as such we need to specify our function such that it only accepts inputs of numeric data-type. We return a complete sorted list of distance measures and class labels for each member of the population. The next step allows us to predict a class for our candidate based of a majority rule decision examinging the class labels of the k-nearest neighbors.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">func</span> chooseClass(rankedlist <span style="color: #007020; font-weight: bold">map</span>[<span style="color: #902000">string</span>]<span style="color: #902000">float64</span>) <span style="color: #902000">string</span> {
+	pl <span style="color: #666666">:=</span> <span style="color: #007020">make</span>(sliceOfOrderedPair, <span style="color: #007020">len</span>(rankedlist))
+	i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>
+	<span style="color: #007020; font-weight: bold">for</span> k, v <span style="color: #666666">:=</span> <span style="color: #007020; font-weight: bold">range</span> rankedlist { <span style="color: #60a0b0; font-style: italic">// counting the number of each class in ranked list</span>
+		pl[i] = ordererdPair{v, k}
+		i<span style="color: #666666">++</span>
+	}
+	sort.Sort(sort.Reverse(pl))
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(pl)</span>
+	<span style="color: #007020; font-weight: bold">return</span> pl[<span style="color: #40a070">0</span>].class <span style="color: #60a0b0; font-style: italic">// choosing majority class.</span>
+}
+
+<span style="color: #007020; font-weight: bold">func</span> knn(candidate []<span style="color: #902000">float64</span>, population [][]<span style="color: #902000">float64</span>, popClass []<span style="color: #902000">string</span>, k <span style="color: #902000">int</span>) <span style="color: #902000">string</span> {
+	<span style="color: #007020; font-weight: bold">if</span> <span style="color: #007020">len</span>(population) <span style="color: #666666">!=</span> <span style="color: #007020">len</span>(popClass) {
+		log.Fatal(<span style="color: #4070a0">&quot;Mismatch. All population must have class identifiers&quot;</span>)
+	}
+	sorted <span style="color: #666666">:=</span> comparison(candidate, population, popClass)
+
+	m <span style="color: #666666">:=</span> <span style="color: #007020; font-weight: bold">map</span>[<span style="color: #902000">string</span>]<span style="color: #902000">float64</span>{}
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; k; i<span style="color: #666666">++</span> {
+		m[sorted[i].class] <span style="color: #666666">+=</span> <span style="color: #40a070">1.0</span>
+	}
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(m)</span>
+	<span style="color: #007020; font-weight: bold">return</span> chooseClass(m)
+}
+</pre></div>
+
+<p>The next two functions work together. The first chooseClass function assumes that we have performed a count aggregation on our ranked list to determine the number of the population falling under each respect class. It unpacks this mapping and places the pairs of numbers and class-labels into our custom structure to apply a sort function. Taking the most prevalent class among the list to be the return result. The knn function plays an intermediary role in that it filters the rankedlist returned by the comparison function to assess only the top k members of the population. It then aggregates to count the population by class before calling the chooseClass function.</p>
+
+<p>Of course we will often wish to compare more than one candidate, and more importantly we want to know the accuracy of our predictions. The next two functions address this concern:</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">func</span> predictionAccuracy(test [][]<span style="color: #902000">float64</span>, train [][]<span style="color: #902000">float64</span>, trainC []<span style="color: #902000">string</span>, actualC []<span style="color: #902000">string</span>, k <span style="color: #902000">int</span>) <span style="color: #902000">float64</span> {
+	result <span style="color: #666666">:=</span> <span style="color: #40a070">0.0</span>
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(test); i<span style="color: #666666">++</span> {
+		<span style="color: #60a0b0; font-style: italic">//fmt.Println(&quot;Prediction&quot;, knn(test[i], train, trainC, k))</span>
+		<span style="color: #60a0b0; font-style: italic">//fmt.Println(&quot;Acutal class&quot;, actualC[i])</span>
+		<span style="color: #007020; font-weight: bold">if</span> knn(test[i], train, trainC, k) <span style="color: #666666">==</span> actualC[i] {
+			result<span style="color: #666666">++</span>
+		}
+	}
+	<span style="color: #007020; font-weight: bold">return</span> result <span style="color: #666666">/</span> <span style="color: #007020">float64</span>(<span style="color: #007020">len</span>(test))
+}
+
+<span style="color: #007020; font-weight: bold">func</span> trainTest(pop [][]<span style="color: #902000">float64</span>, class []<span style="color: #902000">string</span>) (t [][]<span style="color: #902000">float64</span>, tClass []<span style="color: #902000">string</span>, tst [][]<span style="color: #902000">float64</span>, tstClass []<span style="color: #902000">string</span>) {
+	train <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">0</span>)
+	<span style="color: #007020; font-weight: bold">var</span> trainClass []<span style="color: #902000">string</span>
+	test <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">0</span>)
+	<span style="color: #007020; font-weight: bold">var</span> testClass []<span style="color: #902000">string</span>
+	s2 <span style="color: #666666">:=</span> rand.NewSource(<span style="color: #40a070">21</span>) <span style="color: #60a0b0; font-style: italic">// setting random number generator</span>
+	r2 <span style="color: #666666">:=</span> rand.New(s2)
+	<span style="color: #007020; font-weight: bold">var</span> randomchoice []<span style="color: #902000">int</span>
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; (<span style="color: #007020">len</span>(pop) <span style="color: #666666">/</span> <span style="color: #40a070">5</span>); i<span style="color: #666666">++</span> { <span style="color: #60a0b0; font-style: italic">// ensures 80/20 split</span>
+		randomchoice = <span style="color: #007020">append</span>(randomchoice, r2.Intn(<span style="color: #007020">len</span>(pop))) <span style="color: #60a0b0; font-style: italic">// choosing numbers within range of pop size</span>
+	}
+
+	set <span style="color: #666666">:=</span> <span style="color: #007020">make</span>(<span style="color: #007020; font-weight: bold">map</span>[<span style="color: #902000">int</span>]<span style="color: #902000">bool</span>) <span style="color: #60a0b0; font-style: italic">// for selecting only those randomly generated indexes</span>
+	<span style="color: #007020; font-weight: bold">for</span> _, v <span style="color: #666666">:=</span> <span style="color: #007020; font-weight: bold">range</span> randomchoice {
+		set[v] = <span style="color: #007020; font-weight: bold">true</span>
+	}
+
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(pop); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">if</span> set[i] { <span style="color: #60a0b0; font-style: italic">// selecting those randomly generated indexes for test set.</span>
+			test = <span style="color: #007020">append</span>(test, pop[i])
+			testClass = <span style="color: #007020">append</span>(testClass, class[i])
+		} <span style="color: #007020; font-weight: bold">else</span> {
+			train = <span style="color: #007020">append</span>(train, pop[i])
+			trainClass = <span style="color: #007020">append</span>(trainClass, class[i])
+		}
+	}
+	<span style="color: #007020; font-weight: bold">return</span> train, trainClass, test, testClass
+}
+</pre></div>
+
+<p>The first function assumes the second. We have split our data such that for a randomly selected sub-set of the population we pretend ignorance its class-label and use the rest of the data to (train) develop a prediction for the potential class of the test candidates. We then compare this predicted label to the actual class for a measure of the algorithm&rsquo;s accuracy.</p>
+
+<p>The second trainTest function simply selects a random fifth of our population to enter into the test set and uses the rest for training data. It returns four elements: (1) slice of slices with the test features for each member of the test population, (2) a slice of strings with the class label for each member of the test population, and the same data for the training population. We are now in a positon to load in some actual data and apply these functions.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">func</span> main() {
+	<span style="color: #60a0b0; font-style: italic">// read data</span>
+	file <span style="color: #666666">:=</span> <span style="color: #4070a0">&quot;/Users/nathanielforde/Desktop/Data Science/Mathematical Probability/iris.data.csv&quot;</span>
+	f, err <span style="color: #666666">:=</span> os.Open(file)
+	<span style="color: #007020; font-weight: bold">defer</span> f.Close()
+
+	r <span style="color: #666666">:=</span> csv.NewReader(f)
+	r.Comma = <span style="color: #4070a0">&#39;,&#39;</span>
+	r.Comment = <span style="color: #4070a0">&#39;#&#39;</span>
+
+	records, err <span style="color: #666666">:=</span> r.ReadAll()
+	<span style="color: #007020; font-weight: bold">if</span> err <span style="color: #666666">!=</span> <span style="color: #007020; font-weight: bold">nil</span> {
+		log.Fatal(err)
+	}
+
+	<span style="color: #60a0b0; font-style: italic">// Data must be of the form [ num, num, num ...  class identifier]</span>
+	<span style="color: #60a0b0; font-style: italic">// we now parse the data from strings into numbers.</span>
+
+	<span style="color: #007020; font-weight: bold">var</span> population [][]<span style="color: #902000">string</span>
+	<span style="color: #007020; font-weight: bold">var</span> classifier []<span style="color: #902000">string</span>
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(records); i<span style="color: #666666">++</span> {
+		classifier = <span style="color: #007020">append</span>(classifier, records[i][<span style="color: #007020">len</span>(records[i])<span style="color: #666666">-</span><span style="color: #40a070">1</span>])
+		population = <span style="color: #007020">append</span>(population, records[i][:<span style="color: #007020">len</span>(records[i])<span style="color: #666666">-</span><span style="color: #40a070">2</span>])
+	}
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(population[1])</span>
+
+	<span style="color: #007020; font-weight: bold">var</span> popNum [][]<span style="color: #902000">float64</span>
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(population); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">var</span> p []<span style="color: #902000">float64</span>
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(population[<span style="color: #40a070">0</span>]); j<span style="color: #666666">++</span> {
+			q, err <span style="color: #666666">:=</span> strconv.ParseFloat(population[i][j], <span style="color: #40a070">64</span>)
+			<span style="color: #007020; font-weight: bold">if</span> err <span style="color: #666666">!=</span> <span style="color: #007020; font-weight: bold">nil</span> {
+				<span style="color: #007020">panic</span>(err)
+			}
+			p = <span style="color: #007020">append</span>(p, q)
+		}
+		popNum = <span style="color: #007020">append</span>(popNum, p)
+	}
+
+	train, _, _, _ <span style="color: #666666">:=</span> trainTest(popNum, classifier)
+	_, trainClass, _, _ <span style="color: #666666">:=</span> trainTest(popNum, classifier)
+	_, _, test, _ <span style="color: #666666">:=</span> trainTest(popNum, classifier)
+	_, _, _, testClass <span style="color: #666666">:=</span> trainTest(popNum, classifier)
+
+	fmt.Println(<span style="color: #007020">len</span>(train))
+	fmt.Println(<span style="color: #007020">len</span>(test))
+
+	fmt.Println(predictionAccuracy(test, train, trainClass, testClass, <span style="color: #40a070">3</span>))
+</pre></div>
+
+<p>Our results on the iris data set show:</p>
+
+<p>0.9629629629629629</p>
+
+<p>Finished in  0.585s</p>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="https://NathanielF.github.io/js/jquery.min.js"></script>
+<script src="https://NathanielF.github.io/js/bootstrap.min.js"></script>
+<script src="https://NathanielF.github.io/js/jquery.cookie.js"> </script>
+<script src="https://NathanielF.github.io/js/ekko-lightbox.js"></script>
+<script src="https://NathanielF.github.io/js/jquery.scrollTo.min.js"></script>
+<script src="https://NathanielF.github.io/js/masonry.pkgd.min.js"></script>
+<script src="https://NathanielF.github.io/js/imagesloaded.pkgd.min.js"></script>
+<script src="https://NathanielF.github.io/js/owl.carousel.min.js"></script>
+<script src="https://NathanielF.github.io/js/front.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</body>
+</html>

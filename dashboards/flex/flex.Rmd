@@ -1,0 +1,69 @@
+---
+title: "Dashboard Example"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(rbokeh)
+
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### The Iris Data 
+
+```{r}
+library(plotly)
+
+data(iris)
+
+
+lineplot <- function(x) {
+    return((0.4 / 1.84) + (.68/ 1.82)*x)
+}
+  
+y <- lineplot(iris$Sepal.Length)
+iris <- cbind(iris, y)
+
+pal <- c("red", "blue", "green")
+pal <- setNames(pal, c("virginica", "setosa", "versicolor"))
+
+p <- plot_ly(data = iris, x = ~Sepal.Length, y = ~Petal.Length, type = 'scatter', color = ~Species) %>% add_trace(y = ~y, name = 'Boundary', mode = 'lines', showlegend = FALSE) %>%
+  add_annotations(x = 5,
+                  y = 2.8,
+                  text = "y = (0.4 / 1.84) + (.68/ 1.82)x",
+                  xref = "x",
+                  yref = "y",
+                  showarrow = TRUE,
+                  arrowhead = 4,
+                  arrowsize = .5,
+                  ax = 5,
+                  ay = 2.8,
+                  # Styling annotations' text:
+                  font = list(color = '#264E86',
+                              family = 'sans serif',
+                              size = 14))
+
+p
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+

@@ -13,16 +13,6 @@
     
     
     <item>
-      <title>Dashboards</title>
-      <link>https://NathanielF.github.io/dashboards/dashboards/</link>
-      <pubDate>Fri, 26 May 2017 08:22:07 +0100</pubDate>
-      
-      <guid>https://NathanielF.github.io/dashboards/dashboards/</guid>
-      <description>Here we can find the latest collection of dashboards.
-Iris</description>
-    </item>
-    
-    <item>
       <title>The KNN algorithm</title>
       <link>https://NathanielF.github.io/blog/knn/</link>
       <pubDate>Fri, 26 May 2017 08:22:07 +0100</pubDate>
@@ -84,15 +74,6 @@ There are a number of machine learning packages in development but none have the
       
       <guid>https://NathanielF.github.io/blog/montyhall/</guid>
       <description>Probability is difficult because it is hard to properly model the relationships between events, and the facts even when recognised are unintuitive. Conditional probability is a tool for assessing the probability of a hypothesis given some evidence. To represent this mathematically we have to distinguish over all possible events, and assess the frequency of when the hypothesis is confirmed within the subset of possible worlds where our evidence is deemed to have occurred.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://NathanielF.github.io/dashboards/flex/flex/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://NathanielF.github.io/dashboards/flex/flex/</guid>
-      <description>Dashboard Example window.FlexDashboardComponents = [];          /* Dashboard CSS from Keen IO Dashboards (https://github.com/keen/dashboards) */ body { background: #f2f2f2; padding: 60px 0 0 8px; /* padding-top overridden by theme */ } body hr { border-color: #d7d7d7; margin: 10px 0; } .navbar-inverse .navbar-nav  li  a, .navbar .navbar-brand { text-decoration: none; } .navbar-logo { margin-top: 1px; } .navbar-logo img { margin-right: 12px; } .</description>
     </item>
     
   </channel>

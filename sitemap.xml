@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://NathanielF.github.io/portfolio/neuralnet/</loc>
+    <lastmod>2017-05-26T08:22:07+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://NathanielF.github.io/blog/knn/</loc>
     <lastmod>2017-05-26T08:22:07+01:00</lastmod>
   </url>

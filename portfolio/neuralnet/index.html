@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Neural Networks</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/owl.carousel.css">
+<link rel="stylesheet" href="https://NathanielF.github.io/css/owl.theme.css">
+
+
+  <link href="https://NathanielF.github.io/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="https://NathanielF.github.io/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="https://NathanielF.github.io/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="/">Randomly Jittered</a></h1>
+    
+      <p class="sidebar-p">This website is where i work through things I don't understand. Feel free to lend a hand; contact details below</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="https://NathanielF.github.io/">Home</a></li>
+      
+        <li><a href="https://NathanielF.github.io/about/">About</a></li>
+      
+        <li><a href="https://NathanielF.github.io/contact/">Get in touch</a></li>
+      
+        <li><a href="https://NathanielF.github.io/blog/">Blog</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  <a href="https://www.facebook.com/nathaniel.forde" data-animate-hover="pulse" class="external facebook">
+    <i class="fa fa-facebook"></i>
+  </a>
+  
+  
+  
+  
+  
+  <a href="mailto:nathaniel.forde@gmail.com" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  <a href="https://www.linkedin.com/in/nathaniel-forde-2477a265/" data-animate-hover="pulse">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  
+  
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Nathaniel Forde
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="/">Randomly Jittered</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Neural Networks</h1>
+         <p>The clear limitations of the perceptron prompted criticism of the connectionist paradigm in machine learning. In 1969 Marvin Minsky released a scathing critique of the prospects for this approah elaborating a series of examples which could not (even in principle) be learned by the perceptron. Notably the concept of exclusive disjunction could not be captured by any single perceptron.</p>
+
+<p>In part this limitation stems from the fact that the Heaviside activation function forces us to have a discrete delta between our prediction and target. So any corrective update based on our delta cannot be suitably sensitive to amend our weights well. Rather we require a continous activation function so that the delta corrective can be informed by the derivative of the function with respect to the observed error. But before we get into the details, we shall outline the general pattern of learning achieved with the Neural network.</p>
+
+<p>There are two stages in the processing steps of a neural network. The first feedforward step takes in an input matrix and runs it through a series of matrix multiplications to churn out a particular output based on a series of randomised weights. The second step calculates the range of divergence between the output of our neural net and the intended target. In our case we will have a single hidden layer with one output layer. In the picture below we outline how the process ingests the input matrices (green) turns them to calculated matrices (red) and then operates on the calculated matrices (yellow, orange) to prepare for the second backpropagation step of the neural network.</p>
+
+<p><img src="/portfolio/neuralNetwork/NeuralNet 2.png" alt="Neural Net" /></p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">package</span> main
+
+<span style="color: #007020; font-weight: bold">import</span> (
+	<span style="color: #4070a0">&quot;fmt&quot;</span>
+	<span style="color: #4070a0">&quot;math&quot;</span>
+	<span style="color: #4070a0">&quot;math/rand&quot;</span>
+)
+
+<span style="color: #007020; font-weight: bold">type</span> matrix [][]<span style="color: #902000">float64</span>
+
+<span style="color: #60a0b0; font-style: italic">//We shall create a neural net with 1 hidden layer and a single output neuron</span>
+<span style="color: #007020; font-weight: bold">type</span> neuralNet <span style="color: #007020; font-weight: bold">struct</span> {
+	input           matrix
+	prediction      matrix
+	target          matrix
+	errors          matrix
+	learningRate    <span style="color: #902000">float64</span>
+	weightsHidden   matrix
+	biasHidden      matrix
+	weightsOutput   matrix
+	biasOutput      matrix
+	hiddenLayer     matrix
+	activatedHidden matrix
+}
+
+<span style="color: #007020; font-weight: bold">func</span> dotproduct(input []<span style="color: #902000">float64</span>, weights []<span style="color: #902000">float64</span>) <span style="color: #902000">float64</span> {
+	sum <span style="color: #666666">:=</span> <span style="color: #40a070">0.0</span>
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(input); i<span style="color: #666666">++</span> {
+		sum = sum <span style="color: #666666">+</span> (input[i] <span style="color: #666666">*</span> weights[i])
+	}
+	<span style="color: #007020; font-weight: bold">return</span> sum
+}
+
+<span style="color: #007020; font-weight: bold">func</span> returnCol(X matrix, column <span style="color: #902000">int</span>) []<span style="color: #902000">float64</span> {
+	rowNum <span style="color: #666666">:=</span> <span style="color: #007020">len</span>(X)
+	<span style="color: #007020; font-weight: bold">var</span> col []<span style="color: #902000">float64</span>
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; rowNum; i<span style="color: #666666">++</span> {
+		col = <span style="color: #007020">append</span>(col, X[i][column])
+	}
+	<span style="color: #007020; font-weight: bold">return</span> col
+}
+
+<span style="color: #007020; font-weight: bold">func</span> transpose(X matrix) matrix {
+	<span style="color: #007020; font-weight: bold">var</span> t matrix
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(X[<span style="color: #40a070">0</span>]); i<span style="color: #666666">++</span> {
+		t = <span style="color: #007020">append</span>(t, returnCol(X, i))
+	}
+	<span style="color: #007020; font-weight: bold">return</span> t
+}
+
+<span style="color: #007020; font-weight: bold">func</span> sigmoid(x <span style="color: #902000">float64</span>) <span style="color: #902000">float64</span> {
+	<span style="color: #007020; font-weight: bold">return</span> <span style="color: #40a070">1</span> <span style="color: #666666">/</span> (<span style="color: #40a070">1</span> <span style="color: #666666">+</span> math.Exp(<span style="color: #666666">-</span>x))
+}
+
+<span style="color: #007020; font-weight: bold">func</span> derivativeSigmoid(x <span style="color: #902000">float64</span>) <span style="color: #902000">float64</span> {
+	<span style="color: #007020; font-weight: bold">return</span> x <span style="color: #666666">*</span> (<span style="color: #40a070">1</span> <span style="color: #666666">-</span> x)
+}
+
+<span style="color: #007020; font-weight: bold">func</span> mtrxMult(A matrix, B matrix) matrix {
+	colNum <span style="color: #666666">:=</span> <span style="color: #007020">len</span>(A[<span style="color: #40a070">0</span>])
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(&quot;colNum&quot;, colNum)</span>
+	rowNum <span style="color: #666666">:=</span> <span style="color: #007020">len</span>(B)
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(&quot;rowNum&quot;, rowNum)</span>
+	<span style="color: #007020; font-weight: bold">if</span> colNum <span style="color: #666666">!=</span> rowNum {
+		fmt.Println(<span style="color: #4070a0">&quot;Error, column, row dimensions do not match&quot;</span>)
+	}
+
+	newRowNum <span style="color: #666666">:=</span> <span style="color: #007020">len</span>(A)
+	newMtrx <span style="color: #666666">:=</span> <span style="color: #007020">make</span>(matrix, newRowNum)
+
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(A); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">var</span> row []<span style="color: #902000">float64</span>
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(B[<span style="color: #40a070">0</span>]); j<span style="color: #666666">++</span> {
+			row = <span style="color: #007020">append</span>(row, dotproduct(A[i], returnCol(B, j)))
+		}
+		newMtrx[i] = row
+		<span style="color: #60a0b0; font-style: italic">//fmt.Println(row)</span>
+	}
+	<span style="color: #007020; font-weight: bold">return</span> newMtrx
+}
+
+<span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) initWeights(lr <span style="color: #902000">float64</span>) {
+	s1 <span style="color: #666666">:=</span> rand.NewSource(<span style="color: #40a070">42</span>)
+	r1 <span style="color: #666666">:=</span> rand.New(s1)
+
+	bH <span style="color: #666666">:=</span> <span style="color: #007020">make</span>(matrix, <span style="color: #40a070">1</span>, <span style="color: #007020">len</span>(n.input))
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.input); i<span style="color: #666666">++</span> {
+		bH[<span style="color: #40a070">0</span>] = <span style="color: #007020">append</span>(bH[<span style="color: #40a070">0</span>], r1.Float64())
+	}
+	bO <span style="color: #666666">:=</span> <span style="color: #007020">make</span>(matrix, <span style="color: #40a070">1</span>, <span style="color: #40a070">1</span>)
+	bO[<span style="color: #40a070">0</span>] = <span style="color: #007020">append</span>(bO[<span style="color: #40a070">0</span>], r1.Float64())
+
+	<span style="color: #007020; font-weight: bold">var</span> wH matrix
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.input[<span style="color: #40a070">0</span>]); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">var</span> row []<span style="color: #902000">float64</span>
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(n.input); j<span style="color: #666666">++</span> {
+			row = <span style="color: #007020">append</span>(row, r1.Float64())
+		}
+		wH = <span style="color: #007020">append</span>(wH, row)
+	}
+
+	<span style="color: #007020; font-weight: bold">var</span> wO matrix
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.input); i<span style="color: #666666">++</span> {
+		wO = <span style="color: #007020">append</span>(wO, []<span style="color: #902000">float64</span>{r1.Float64()})
+	}
+
+	n.biasHidden = bH
+	n.biasOutput = bO
+	n.weightsHidden = wH
+	n.weightsOutput = wO
+	n.learningRate = lr
+}
+
+<span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) calcHiddenLayer() {
+	m <span style="color: #666666">:=</span> mtrxMult(n.input, n.weightsHidden)
+	b <span style="color: #666666">:=</span> n.biasHidden
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(m); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(m[<span style="color: #40a070">0</span>]); j<span style="color: #666666">++</span> {
+			m[i][j] = m[i][j] <span style="color: #666666">+</span> b[<span style="color: #40a070">0</span>][j]
+		}
+	}
+	n.hiddenLayer = m
+}
+
+<span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) activateHiddenLayer() {
+	m <span style="color: #666666">:=</span> n.hiddenLayer
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.hiddenLayer); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(n.hiddenLayer[<span style="color: #40a070">0</span>]); j<span style="color: #666666">++</span> {
+			m[i][j] = sigmoid(m[i][j])
+		}
+	}
+	n.activatedHidden = m
+}
+
+<span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) makePrediction() {
+	m <span style="color: #666666">:=</span> mtrxMult(n.activatedHidden, n.weightsOutput)
+	b <span style="color: #666666">:=</span> n.biasOutput
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(m); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(m[<span style="color: #40a070">0</span>]); j<span style="color: #666666">++</span> {
+			m[i][j] = m[i][j] <span style="color: #666666">+</span> b[<span style="color: #40a070">0</span>][<span style="color: #40a070">0</span>]
+			m[i][j] = sigmoid(m[i][j])
+		}
+	}
+
+	n.prediction = m
+
+}
+
+<span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) calculateDerivatives() (matrix, matrix, matrix) {
+	<span style="color: #007020; font-weight: bold">var</span> Errors matrix
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.target); i<span style="color: #666666">++</span> {
+		e <span style="color: #666666">:=</span> (n.target[i][<span style="color: #40a070">0</span>] <span style="color: #666666">-</span> n.prediction[i][<span style="color: #40a070">0</span>])
+		Errors = <span style="color: #007020">append</span>(Errors, []<span style="color: #902000">float64</span>{e})
+	}
+	n.errors = Errors
+	<span style="color: #007020; font-weight: bold">var</span> predictionDerivative matrix
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.prediction); i<span style="color: #666666">++</span> {
+		d <span style="color: #666666">:=</span> derivativeSigmoid(n.prediction[i][<span style="color: #40a070">0</span>])
+		predictionDerivative = <span style="color: #007020">append</span>(predictionDerivative, []<span style="color: #902000">float64</span>{d})
+	}
+
+	<span style="color: #007020; font-weight: bold">var</span> HiddenDerivative matrix
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.activatedHidden); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">var</span> row []<span style="color: #902000">float64</span>
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(n.activatedHidden[<span style="color: #40a070">0</span>]); j<span style="color: #666666">++</span> {
+			d <span style="color: #666666">:=</span> derivativeSigmoid(n.activatedHidden[i][j])
+			row = <span style="color: #007020">append</span>(row, d)
+		}
+		HiddenDerivative = <span style="color: #007020">append</span>(HiddenDerivative, row)
+	}
+	<span style="color: #007020; font-weight: bold">return</span> Errors, predictionDerivative, HiddenDerivative
+}
+
+<span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) findDeltas() (matrix, matrix) {
+	e, p, h <span style="color: #666666">:=</span> n.calculateDerivatives()
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(&quot;Derivative Hidden&quot;, h)</span>
+	<span style="color: #007020; font-weight: bold">var</span> predictionDelta matrix
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(e); i<span style="color: #666666">++</span> {
+		d <span style="color: #666666">:=</span> e[i][<span style="color: #40a070">0</span>] <span style="color: #666666">*</span> p[i][<span style="color: #40a070">0</span>]
+		predictionDelta = <span style="color: #007020">append</span>(predictionDelta, []<span style="color: #902000">float64</span>{d})
+	}
+
+	errorHidden <span style="color: #666666">:=</span> mtrxMult(predictionDelta, transpose(n.weightsOutput))
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(&quot;Error Hidden&quot;, errorHidden)</span>
+
+	<span style="color: #007020; font-weight: bold">var</span> deltaHidden matrix
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(h); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">var</span> row []<span style="color: #902000">float64</span>
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(h[<span style="color: #40a070">0</span>]); j<span style="color: #666666">++</span> {
+			d <span style="color: #666666">:=</span> h[i][j] <span style="color: #666666">*</span> errorHidden[i][j]
+			row = <span style="color: #007020">append</span>(row, d)
+		}
+		deltaHidden = <span style="color: #007020">append</span>(deltaHidden, row)
+	}
+
+	<span style="color: #007020; font-weight: bold">return</span> predictionDelta, deltaHidden
+}
+
+<span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) updateWeights() {
+	pD, hD <span style="color: #666666">:=</span> n.findDeltas()
+	lr <span style="color: #666666">:=</span> n.learningRate
+	m <span style="color: #666666">:=</span> mtrxMult(transpose(n.activatedHidden), pD)
+	<span style="color: #007020; font-weight: bold">var</span> newWeightsOut matrix
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(pD); i<span style="color: #666666">++</span> {
+		pr <span style="color: #666666">:=</span> lr<span style="color: #666666">*</span>m[i][<span style="color: #40a070">0</span>] <span style="color: #666666">+</span> n.weightsOutput[i][<span style="color: #40a070">0</span>]
+		newWeightsOut = <span style="color: #007020">append</span>(newWeightsOut, []<span style="color: #902000">float64</span>{pr})
+	}
+	<span style="color: #007020; font-weight: bold">var</span> newWeightsHidden matrix
+	hm <span style="color: #666666">:=</span> mtrxMult(transpose(n.input), hD)
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(hm); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">var</span> row []<span style="color: #902000">float64</span>
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(hm[<span style="color: #40a070">0</span>]); j<span style="color: #666666">++</span> {
+			row = <span style="color: #007020">append</span>(row, lr<span style="color: #666666">*</span>hm[i][j]<span style="color: #666666">+</span>n.weightsHidden[i][j])
+		}
+		newWeightsHidden = <span style="color: #007020">append</span>(newWeightsHidden, row)
+	}
+
+	<span style="color: #007020; font-weight: bold">var</span> newBiasOut matrix
+	sum <span style="color: #666666">:=</span> <span style="color: #40a070">0.0</span>
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(pD); i<span style="color: #666666">++</span> {
+		sum <span style="color: #666666">+=</span> pD[i][<span style="color: #40a070">0</span>]
+	}
+	oldBiasOut <span style="color: #666666">:=</span> n.biasOutput[<span style="color: #40a070">0</span>][<span style="color: #40a070">0</span>]
+	newBiasOut = <span style="color: #007020">append</span>(newBiasOut, []<span style="color: #902000">float64</span>{oldBiasOut <span style="color: #666666">+</span> sum<span style="color: #666666">*</span>lr})
+
+	<span style="color: #007020; font-weight: bold">var</span> newBiasHidden matrix
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(hD); i<span style="color: #666666">++</span> {
+		<span style="color: #007020; font-weight: bold">var</span> row []<span style="color: #902000">float64</span>
+		sum <span style="color: #666666">:=</span> <span style="color: #40a070">0.0</span>
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; j &lt; <span style="color: #007020">len</span>(hD[<span style="color: #40a070">0</span>]); j<span style="color: #666666">++</span> {
+			sum <span style="color: #666666">+=</span> hD[i][j]
+			row = <span style="color: #007020">append</span>(row, sum<span style="color: #666666">*</span>lr)
+		}
+		newBiasHidden = <span style="color: #007020">append</span>(newBiasHidden, row)
+		newBiasHidden[<span style="color: #40a070">0</span>][i] <span style="color: #666666">+=</span> n.biasHidden[<span style="color: #40a070">0</span>][i]
+	}
+
+	n.weightsHidden = newWeightsHidden
+	n.weightsOutput = newWeightsOut
+	n.biasOutput = newBiasOut
+	n.biasHidden = newBiasHidden
+}
+
+<span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) forwardPropagation() {
+	n.calcHiddenLayer()
+	n.activateHiddenLayer()
+	n.makePrediction()
+}
+
+<span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) printNet() {
+	fmt.Println(<span style="color: #4070a0">&quot;Input:&quot;</span>, n.input)
+	fmt.Println(<span style="color: #4070a0">&quot;___________&quot;</span>)
+	fmt.Println(<span style="color: #4070a0">&quot;Target:&quot;</span>, n.target)
+	fmt.Println(<span style="color: #4070a0">&quot;___________&quot;</span>)
+	fmt.Println(<span style="color: #4070a0">&quot;Prediction:&quot;</span>, n.prediction)
+	fmt.Println(<span style="color: #4070a0">&quot;___________&quot;</span>)
+	fmt.Println(<span style="color: #4070a0">&quot;Error:&quot;</span>, n.errors)
+}
+
+<span style="color: #007020; font-weight: bold">func</span> main() {
+	X <span style="color: #666666">:=</span> matrix{
+		{<span style="color: #40a070">0</span>, <span style="color: #40a070">0</span>},
+		{<span style="color: #40a070">0</span>, <span style="color: #40a070">1</span>},
+		{<span style="color: #40a070">1</span>, <span style="color: #40a070">0</span>},
+        {<span style="color: #40a070">1</span>, <span style="color: #40a070">1</span>}
+	}
+	y <span style="color: #666666">:=</span> matrix{{<span style="color: #40a070">0</span>}, {<span style="color: #40a070">1</span>}, {<span style="color: #40a070">1</span>}, {<span style="color: #40a070">0</span>}} <span style="color: #60a0b0; font-style: italic">// Trying to predict</span>
+
+	w1 <span style="color: #666666">:=</span> matrix{
+		{<span style="color: #40a070">0.42</span>, <span style="color: #40a070">.88</span>, <span style="color: #40a070">.55</span>, <span style="color: #40a070">.71</span>},
+		{<span style="color: #40a070">.10</span>, <span style="color: #40a070">.73</span>, <span style="color: #40a070">.68</span>, <span style="color: #40a070">.43</span>},
+	}
+	b1 <span style="color: #666666">:=</span> matrix{
+		{<span style="color: #40a070">.46</span>, <span style="color: #40a070">.72</span>, <span style="color: #40a070">.08</span>, <span style="color: #40a070">.2</span>},
+	}
+
+	w2 <span style="color: #666666">:=</span> matrix{
+		{<span style="color: #40a070">.30</span>},
+		{<span style="color: #40a070">.25</span>},
+		{<span style="color: #40a070">.23</span>},
+        {<span style="color: #40a070">.70</span>}
+	}
+
+	b2 <span style="color: #666666">:=</span> matrix{
+		{<span style="color: #40a070">.69</span>},
+	}
+
+	n <span style="color: #666666">:=</span> neuralNet{
+		input:         X,
+		target:        y,
+		biasHidden:    b1,
+		weightsHidden: w1,
+		biasOutput:    b2,
+		weightsOutput: w2,
+		learningRate:  <span style="color: #40a070">.1</span>,
+	}
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #40a070">5000</span>; i<span style="color: #666666">++</span> {
+		n.forwardPropagation()
+		n.updateWeights()
+	}
+	n.printNet()
+
+}
+</pre></div>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="https://NathanielF.github.io/js/jquery.min.js"></script>
+<script src="https://NathanielF.github.io/js/bootstrap.min.js"></script>
+<script src="https://NathanielF.github.io/js/jquery.cookie.js"> </script>
+<script src="https://NathanielF.github.io/js/ekko-lightbox.js"></script>
+<script src="https://NathanielF.github.io/js/jquery.scrollTo.min.js"></script>
+<script src="https://NathanielF.github.io/js/masonry.pkgd.min.js"></script>
+<script src="https://NathanielF.github.io/js/imagesloaded.pkgd.min.js"></script>
+<script src="https://NathanielF.github.io/js/owl.carousel.min.js"></script>
+<script src="https://NathanielF.github.io/js/front.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</body>
+</html>

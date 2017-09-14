@@ -13,6 +13,16 @@
     
     
     <item>
+      <title>Neural Networks</title>
+      <link>https://NathanielF.github.io/portfolio/neuralnet/</link>
+      <pubDate>Fri, 26 May 2017 08:22:07 +0100</pubDate>
+      
+      <guid>https://NathanielF.github.io/portfolio/neuralnet/</guid>
+      <description>The clear limitations of the perceptron prompted criticism of the connectionist paradigm in machine learning. In 1969 Marvin Minsky released a scathing critique of the prospects for this approah elaborating a series of examples which could not (even in principle) be learned by the perceptron. Notably the concept of exclusive disjunction could not be captured by any single perceptron.
+In part this limitation stems from the fact that the Heaviside activation function forces us to have a discrete delta between our prediction and target.</description>
+    </item>
+    
+    <item>
       <title>The KNN algorithm</title>
       <link>https://NathanielF.github.io/portfolio/knn/</link>
       <pubDate>Fri, 26 May 2017 08:22:07 +0100</pubDate>

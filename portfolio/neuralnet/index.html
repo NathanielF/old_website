@@ -100,6 +100,8 @@
 <p>There are two stages in the processing steps of a neural network. The first feedforward step takes in an input matrix and runs it through a series of matrix multiplications to churn out a particular output based on a series of randomised weights. The second step calculates the range of divergence between the output of our neural net and the intended target. In our case we will have a single hidden layer with one output layer. In the picture below we outline how the process ingests the input matrices (green) turns them to calculated matrices (red) and then operates on the calculated matrices (yellow, orange) to prepare for the second backpropagation step of the neural network.</p>
 
 <p><img src="/portfolio/neuralNetwork/NeuralNet 2.png" alt="Neural Net" /></p>
+
+<p>Here we can see that once we calculate the derivates, we are in a position to establish the deltas with respect to the target and make minor corrections to the initialised weights and biases of our inputs. Then we can re-run this process until such time as the neural network has learned the weights required to make the desired prediction. In particular we shall show how to code a neural network so that it can &ldquo;learn&rdquo; the concept of the exclusive disjunction (XOR gate).</p>
 <div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">package</span> main
 
 <span style="color: #007020; font-weight: bold">import</span> (
@@ -160,9 +162,7 @@
 
 <span style="color: #007020; font-weight: bold">func</span> mtrxMult(A matrix, B matrix) matrix {
 	colNum <span style="color: #666666">:=</span> <span style="color: #007020">len</span>(A[<span style="color: #40a070">0</span>])
-	<span style="color: #60a0b0; font-style: italic">//fmt.Println(&quot;colNum&quot;, colNum)</span>
 	rowNum <span style="color: #666666">:=</span> <span style="color: #007020">len</span>(B)
-	<span style="color: #60a0b0; font-style: italic">//fmt.Println(&quot;rowNum&quot;, rowNum)</span>
 	<span style="color: #007020; font-weight: bold">if</span> colNum <span style="color: #666666">!=</span> rowNum {
 		fmt.Println(<span style="color: #4070a0">&quot;Error, column, row dimensions do not match&quot;</span>)
 	}
@@ -176,7 +176,6 @@
 			row = <span style="color: #007020">append</span>(row, dotproduct(A[i], returnCol(B, j)))
 		}
 		newMtrx[i] = row
-		<span style="color: #60a0b0; font-style: italic">//fmt.Println(row)</span>
 	}
 	<span style="color: #007020; font-weight: bold">return</span> newMtrx
 }
@@ -184,11 +183,12 @@
 <span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) initWeights(lr <span style="color: #902000">float64</span>) {
 	s1 <span style="color: #666666">:=</span> rand.NewSource(<span style="color: #40a070">42</span>)
 	r1 <span style="color: #666666">:=</span> rand.New(s1)
-
+	<span style="color: #60a0b0; font-style: italic">// row vector</span>
 	bH <span style="color: #666666">:=</span> <span style="color: #007020">make</span>(matrix, <span style="color: #40a070">1</span>, <span style="color: #007020">len</span>(n.input))
 	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.input); i<span style="color: #666666">++</span> {
 		bH[<span style="color: #40a070">0</span>] = <span style="color: #007020">append</span>(bH[<span style="color: #40a070">0</span>], r1.Float64())
 	}
+	<span style="color: #60a0b0; font-style: italic">// scaler</span>
 	bO <span style="color: #666666">:=</span> <span style="color: #007020">make</span>(matrix, <span style="color: #40a070">1</span>, <span style="color: #40a070">1</span>)
 	bO[<span style="color: #40a070">0</span>] = <span style="color: #007020">append</span>(bO[<span style="color: #40a070">0</span>], r1.Float64())
 
@@ -200,7 +200,7 @@
 		}
 		wH = <span style="color: #007020">append</span>(wH, row)
 	}
-
+	<span style="color: #60a0b0; font-style: italic">// column vector</span>
 	<span style="color: #007020; font-weight: bold">var</span> wO matrix
 	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.input); i<span style="color: #666666">++</span> {
 		wO = <span style="color: #007020">append</span>(wO, []<span style="color: #902000">float64</span>{r1.Float64()})
@@ -223,7 +223,7 @@
 	}
 	n.hiddenLayer = m
 }
-
+<span style="color: #60a0b0; font-style: italic">// apply activation function</span>
 <span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) activateHiddenLayer() {
 	m <span style="color: #666666">:=</span> n.hiddenLayer
 	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.hiddenLayer); i<span style="color: #666666">++</span> {
@@ -251,6 +251,7 @@
 <span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) calculateDerivatives() (matrix, matrix, matrix) {
 	<span style="color: #007020; font-weight: bold">var</span> Errors matrix
 	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(n.target); i<span style="color: #666666">++</span> {
+		<span style="color: #60a0b0; font-style: italic">// Grad of 1/2(t - p)^{2}</span>
 		e <span style="color: #666666">:=</span> (n.target[i][<span style="color: #40a070">0</span>] <span style="color: #666666">-</span> n.prediction[i][<span style="color: #40a070">0</span>])
 		Errors = <span style="color: #007020">append</span>(Errors, []<span style="color: #902000">float64</span>{e})
 	}
@@ -275,7 +276,6 @@
 
 <span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) findDeltas() (matrix, matrix) {
 	e, p, h <span style="color: #666666">:=</span> n.calculateDerivatives()
-	<span style="color: #60a0b0; font-style: italic">//fmt.Println(&quot;Derivative Hidden&quot;, h)</span>
 	<span style="color: #007020; font-weight: bold">var</span> predictionDelta matrix
 	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(e); i<span style="color: #666666">++</span> {
 		d <span style="color: #666666">:=</span> e[i][<span style="color: #40a070">0</span>] <span style="color: #666666">*</span> p[i][<span style="color: #40a070">0</span>]
@@ -283,7 +283,7 @@
 	}
 
 	errorHidden <span style="color: #666666">:=</span> mtrxMult(predictionDelta, transpose(n.weightsOutput))
-	<span style="color: #60a0b0; font-style: italic">//fmt.Println(&quot;Error Hidden&quot;, errorHidden)</span>
+	<span style="color: #60a0b0; font-style: italic">// begin backpropagate by transposing the matrix and reversing the direction</span>
 
 	<span style="color: #007020; font-weight: bold">var</span> deltaHidden matrix
 	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(h); i<span style="color: #666666">++</span> {
@@ -299,6 +299,7 @@
 }
 
 <span style="color: #007020; font-weight: bold">func</span> (n <span style="color: #666666">*</span>neuralNet) updateWeights() {
+	<span style="color: #60a0b0; font-style: italic">// begin backpropagate </span>
 	pD, hD <span style="color: #666666">:=</span> n.findDeltas()
 	lr <span style="color: #666666">:=</span> n.learningRate
 	m <span style="color: #666666">:=</span> mtrxMult(transpose(n.activatedHidden), pD)
@@ -360,13 +361,14 @@
 }
 
 <span style="color: #007020; font-weight: bold">func</span> main() {
+	<span style="color: #60a0b0; font-style: italic">// XOR input</span>
 	X <span style="color: #666666">:=</span> matrix{
 		{<span style="color: #40a070">0</span>, <span style="color: #40a070">0</span>},
 		{<span style="color: #40a070">0</span>, <span style="color: #40a070">1</span>},
 		{<span style="color: #40a070">1</span>, <span style="color: #40a070">0</span>},
         {<span style="color: #40a070">1</span>, <span style="color: #40a070">1</span>}
 	}
-	y <span style="color: #666666">:=</span> matrix{{<span style="color: #40a070">0</span>}, {<span style="color: #40a070">1</span>}, {<span style="color: #40a070">1</span>}, {<span style="color: #40a070">0</span>}} <span style="color: #60a0b0; font-style: italic">// Trying to predict</span>
+	y <span style="color: #666666">:=</span> matrix{{<span style="color: #40a070">0</span>}, {<span style="color: #40a070">1</span>}, {<span style="color: #40a070">1</span>}, {<span style="color: #40a070">0</span>}} <span style="color: #60a0b0; font-style: italic">// Trying to learn</span>
 
 	w1 <span style="color: #666666">:=</span> matrix{
 		{<span style="color: #40a070">0.42</span>, <span style="color: #40a070">.88</span>, <span style="color: #40a070">.55</span>, <span style="color: #40a070">.71</span>},
@@ -398,7 +400,7 @@
 	}
 	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #40a070">5000</span>; i<span style="color: #666666">++</span> {
 		n.forwardPropagation()
-		n.updateWeights()
+		n.updateWeights() <span style="color: #60a0b0; font-style: italic">// backpropagate</span>
 	}
 	n.printNet()
 

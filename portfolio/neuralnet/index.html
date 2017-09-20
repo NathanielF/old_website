@@ -99,9 +99,13 @@
 
 <p>There are two stages in the processing steps of a neural network. The first feedforward step takes in an input matrix and runs it through a series of matrix multiplications to churn out a particular output based on a series of randomised weights. The second step calculates the range of divergence between the output of our neural net and the intended target. In our case we will have a single hidden layer with one output layer. In the picture below we outline how the process ingests the input matrices (green) turns them to calculated matrices (red) and then operates on the calculated matrices (yellow, orange) to prepare for the second backpropagation step of the neural network.</p>
 
-<p><img src="/portfolio/neuralNetwork/NeuralNet 2.png" alt="Neural Net" /></p>
+<p><img src="/portfolio/neuralNetwork/NeuralNet2.png" alt="Neural Net" /></p>
 
-<p>Here we can see that once we calculate the derivates, we are in a position to establish the deltas with respect to the target and make minor corrections to the initialised weights and biases of our inputs. Then we can re-run this process until such time as the neural network has learned the weights required to make the desired prediction. In particular we shall show how to code a neural network so that it can &ldquo;learn&rdquo; the concept of the exclusive disjunction (XOR gate).</p>
+<p>Here we can see that once we calculate the derivates, we are in a position to establish the deltas with respect to the target and make minor corrections to the initialised weights and biases of our inputs. Then we can re-run this process until such time as the neural network has learned the weights required to make the desired prediction.</p>
+
+<p><img src="/portfolio/neuralNetwork/backprop.png" alt="Backpropagation" /></p>
+
+<p>So long as we set the fractional learning rate parameter to be suitably small we are unlikely to fall into a cycle of over-correction. So the forward propagation and prediction followed by the backprogagation correction process can be repeated thousands of times until convergence is achieved. In particular we shall show how to code a neural network so that it can &ldquo;learn&rdquo; the concept of the exclusive disjunction (XOR gate).</p>
 <div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">package</span> main
 
 <span style="color: #007020; font-weight: bold">import</span> (
@@ -283,7 +287,6 @@
 	}
 
 	errorHidden <span style="color: #666666">:=</span> mtrxMult(predictionDelta, transpose(n.weightsOutput))
-	<span style="color: #60a0b0; font-style: italic">// begin backpropagate by transposing the matrix and reversing the direction</span>
 
 	<span style="color: #007020; font-weight: bold">var</span> deltaHidden matrix
 	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(h); i<span style="color: #666666">++</span> {

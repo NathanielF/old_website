@@ -148,36 +148,125 @@
 }
 </pre></div>
 
-<p>We can see here that this function constructs the new matrix by (a) ensuring the two input matrices have conformable arguments (b) building the new matrix row by row. We hold the row value fixed and iterate along populating the values until we hit the end, at which point we move to the next row. To populate each element we take the simple dotproduct of the a column from the first matrix and row from the second, so as long as the two matrices have the correct number of dimensions this procedure will work. Consider:</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span>	A <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">3</span>) <span style="color: #60a0b0; font-style: italic">// 3 X 2</span>
-	A[<span style="color: #40a070">0</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">3</span>, <span style="color: #40a070">2</span>}
-	A[<span style="color: #40a070">1</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">7</span>, <span style="color: #40a070">6</span>}
-	A[<span style="color: #40a070">2</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">7</span>, <span style="color: #40a070">6</span>}
+<p>We can see here that this function constructs the new matrix by (a) ensuring the two input matrices have conformable arguments (b) building the new matrix row by row. We hold the row value fixed and iterate along populating the values until we hit the end, at which point we move to the next row. To populate each element we take the simple dotproduct of the a column from the first matrix and row from the second, so as long as the two matrices have the correct number of dimensions this procedure will work.</p>
 
-	B <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">2</span>) <span style="color: #60a0b0; font-style: italic">//2 X 3</span>
-	B[<span style="color: #40a070">0</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">1</span>, <span style="color: #40a070">2</span>, <span style="color: #40a070">3</span>}
-	B[<span style="color: #40a070">1</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">3</span>, <span style="color: #40a070">4</span>, <span style="color: #40a070">1</span>}
-
-	C <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">1</span>)
-	C[<span style="color: #40a070">0</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">2</span>, <span style="color: #40a070">2</span>, <span style="color: #40a070">2</span>} <span style="color: #60a0b0; font-style: italic">// 1 X 3</span>
-
-	D <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">3</span>) <span style="color: #60a0b0; font-style: italic">//  3 X 2</span>
-	D[<span style="color: #40a070">0</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">1</span>, <span style="color: #40a070">1</span>}
-	D[<span style="color: #40a070">1</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">1</span>, <span style="color: #40a070">2</span>}
-	D[<span style="color: #40a070">2</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">1</span>, <span style="color: #40a070">1</span>}
-
-
-<span style="color: #007020; font-weight: bold">func</span> printMatrix(matrix [][]<span style="color: #902000">float64</span>) {
-	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; <span style="color: #007020">len</span>(matrix); i<span style="color: #666666">++</span> {
-		fmt.Println(<span style="color: #4070a0">&quot;m&quot;</span>, i, <span style="color: #4070a0">&quot;:&quot;</span>, matrix[i], <span style="color: #4070a0">&quot;\n&quot;</span>)
+<p>Next we make use of this operation to define the LU decomposition algorithm.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #60a0b0; font-style: italic">// MakeZero creates a square zero matrix</span>
+<span style="color: #007020; font-weight: bold">func</span> MakeZero(number <span style="color: #902000">int</span>) [][]<span style="color: #902000">float64</span> {
+	m <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, number)
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #007020; font-weight: bold">range</span> m {
+		r <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([]<span style="color: #902000">float64</span>, number)
+		m[i] = r
+		<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #007020; font-weight: bold">range</span> m[i] {
+			m[i][j] = <span style="color: #40a070">0.0</span>
+		}
 	}
-	<span style="color: #007020; font-weight: bold">return</span>
+	<span style="color: #007020; font-weight: bold">return</span> m
 }
 
-printMatrix(mtrxMult(B, D))   <span style="color: #60a0b0; font-style: italic">//   m 0: [6 8]</span>
-                              <span style="color: #60a0b0; font-style: italic">//   m 1: [8 12]</span>
+<span style="color: #60a0b0; font-style: italic">// Eye creates the identity matrix for a square matrix of size n</span>
+<span style="color: #007020; font-weight: bold">func</span> Eye(number <span style="color: #902000">int</span>) [][]<span style="color: #902000">float64</span> {
+	m <span style="color: #666666">:=</span> MakeZero(number)
+	<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; number; i<span style="color: #666666">++</span> {
+		m[i][i] = <span style="color: #40a070">1.0</span>
+	}
+	<span style="color: #007020; font-weight: bold">return</span> m
+}
 
-printMatrix(mtrxMult(C, A))   <span style="color: #60a0b0; font-style: italic">// m 0: [34, 28]</span>
+<span style="color: #60a0b0; font-style: italic">// LuDecomp performs the L U decomposition of a square matrix using Crout&#39;s method.</span>
+<span style="color: #007020; font-weight: bold">func</span> LuDecomp(A [][]<span style="color: #902000">float64</span>) (L [][]<span style="color: #902000">float64</span>, U [][]<span style="color: #902000">float64</span>) {
+	n <span style="color: #666666">:=</span> <span style="color: #007020">len</span>(A)
+	l <span style="color: #666666">:=</span> MakeZero(n) <span style="color: #60a0b0; font-style: italic">// primes l</span>
+	u <span style="color: #666666">:=</span> Eye(n)      <span style="color: #60a0b0; font-style: italic">// primes u</span>
+
+	l[<span style="color: #40a070">0</span>][<span style="color: #40a070">0</span>] = A[<span style="color: #40a070">0</span>][<span style="color: #40a070">0</span>]
+	<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">1</span>; j &lt; n; j<span style="color: #666666">++</span> {
+		l[j][<span style="color: #40a070">0</span>] = A[j][<span style="color: #40a070">0</span>]           <span style="color: #60a0b0; font-style: italic">// copies remainder of first column into L</span>
+		u[<span style="color: #40a070">0</span>][j] = A[<span style="color: #40a070">0</span>][j] <span style="color: #666666">/</span> l[<span style="color: #40a070">0</span>][<span style="color: #40a070">0</span>] <span style="color: #60a0b0; font-style: italic">// scales first row in U, barring 1st entry</span>
+	}
+	<span style="color: #60a0b0; font-style: italic">//fmt.Println(l, u)</span>
+	<span style="color: #007020; font-weight: bold">for</span> j <span style="color: #666666">:=</span> <span style="color: #40a070">1</span>; j &lt; n<span style="color: #666666">-</span><span style="color: #40a070">1</span>; j<span style="color: #666666">++</span> { <span style="color: #60a0b0; font-style: italic">//encompasses both l and u</span>
+
+		<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> j; i &lt; n; i<span style="color: #666666">++</span> { <span style="color: #60a0b0; font-style: italic">// populates l from second column onwards</span>
+			l[i][j] = A[i][j]
+			<span style="color: #007020; font-weight: bold">for</span> k <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; k <span style="color: #666666">&lt;=</span> j<span style="color: #666666">-</span><span style="color: #40a070">1</span>; k<span style="color: #666666">++</span> {
+				l[i][j] = l[i][j] <span style="color: #666666">-</span> l[i][k]<span style="color: #666666">*</span>u[k][j] <span style="color: #60a0b0; font-style: italic">//makes use of definition of mtrx multiplication and structure of l</span>
+
+			}
+		}
+
+		<span style="color: #007020; font-weight: bold">for</span> k <span style="color: #666666">:=</span> j <span style="color: #666666">+</span> <span style="color: #40a070">1</span>; k &lt; n; k<span style="color: #666666">++</span> { <span style="color: #60a0b0; font-style: italic">// populates u from second row onwards</span>
+			u[j][k] = A[j][k]
+			<span style="color: #007020; font-weight: bold">for</span> i <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; i &lt; j; i<span style="color: #666666">++</span> {
+				u[j][k] = u[j][k] <span style="color: #666666">-</span> l[j][i]<span style="color: #666666">*</span>u[i][k] <span style="color: #60a0b0; font-style: italic">//makes use of definition of mtrx multiplication and structure of u</span>
+			}
+			u[j][k] = u[j][k] <span style="color: #666666">/</span> l[j][j] <span style="color: #60a0b0; font-style: italic">//scales u</span>
+		}
+	}
+	l[n<span style="color: #666666">-</span><span style="color: #40a070">1</span>][n<span style="color: #666666">-</span><span style="color: #40a070">1</span>] = A[n<span style="color: #666666">-</span><span style="color: #40a070">1</span>][n<span style="color: #666666">-</span><span style="color: #40a070">1</span>] <span style="color: #60a0b0; font-style: italic">// sets the nth value of l</span>
+	<span style="color: #007020; font-weight: bold">for</span> k <span style="color: #666666">:=</span> <span style="color: #40a070">0</span>; k &lt; n<span style="color: #666666">-</span><span style="color: #40a070">1</span>; k<span style="color: #666666">++</span> {
+		l[n<span style="color: #666666">-</span><span style="color: #40a070">1</span>][n<span style="color: #666666">-</span><span style="color: #40a070">1</span>] <span style="color: #666666">-=</span> l[n<span style="color: #666666">-</span><span style="color: #40a070">1</span>][k] <span style="color: #666666">*</span> u[k][n<span style="color: #666666">-</span><span style="color: #40a070">1</span>]
+	}
+
+	<span style="color: #007020; font-weight: bold">return</span> l, u
+}
+</pre></div>
+
+<p>This algorithm works by decomposing a given matrix into two triangular matrices which can be used to solve a system of linear equations. For the moment we demonstrate the decomposition.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><span></span><span style="color: #007020; font-weight: bold">func</span> main() {
+	A <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">3</span>)
+	A[<span style="color: #40a070">0</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">3</span>, <span style="color: #666666">-</span><span style="color: #40a070">0.1</span>, <span style="color: #666666">-</span><span style="color: #40a070">0.2</span>}
+	A[<span style="color: #40a070">1</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">0.1</span>, <span style="color: #40a070">7</span>, <span style="color: #666666">-</span><span style="color: #40a070">0.3</span>}
+	A[<span style="color: #40a070">2</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">0.3</span>, <span style="color: #666666">-</span><span style="color: #40a070">0.2</span>, <span style="color: #40a070">10</span>}
+
+	B <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">3</span>)
+	B[<span style="color: #40a070">0</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">4</span>, <span style="color: #40a070">0</span>, <span style="color: #40a070">1</span>}
+	B[<span style="color: #40a070">1</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">2</span>, <span style="color: #40a070">1</span>, <span style="color: #40a070">0</span>}
+	B[<span style="color: #40a070">2</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">2</span>, <span style="color: #40a070">2</span>, <span style="color: #40a070">3</span>}
+
+	C <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">3</span>)
+	C[<span style="color: #40a070">0</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">1</span>, <span style="color: #40a070">3</span>, <span style="color: #40a070">4</span>}
+	C[<span style="color: #40a070">1</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">3</span>, <span style="color: #40a070">15</span>, <span style="color: #40a070">20</span>}
+	C[<span style="color: #40a070">2</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">2</span>, <span style="color: #40a070">18</span>, <span style="color: #40a070">26</span>}
+
+	D <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">3</span>)
+	D[<span style="color: #40a070">0</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">1</span>, <span style="color: #40a070">2</span>, <span style="color: #40a070">4</span>}
+	D[<span style="color: #40a070">1</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">3</span>, <span style="color: #40a070">8</span>, <span style="color: #40a070">14</span>}
+	D[<span style="color: #40a070">2</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">2</span>, <span style="color: #40a070">6</span>, <span style="color: #40a070">13</span>}
+
+	E <span style="color: #666666">:=</span> <span style="color: #007020">make</span>([][]<span style="color: #902000">float64</span>, <span style="color: #40a070">2</span>)
+	E[<span style="color: #40a070">0</span>] = []<span style="color: #902000">float64</span>{<span style="color: #40a070">3</span>, <span style="color: #40a070">1</span>}
+	E[<span style="color: #40a070">1</span>] = []<span style="color: #902000">float64</span>{<span style="color: #666666">-</span><span style="color: #40a070">6</span>, <span style="color: #666666">-</span><span style="color: #40a070">4</span>}
+
+	a, b <span style="color: #666666">:=</span> LuDecomp(C)
+	fmt.Println(<span style="color: #4070a0">&quot;Lower&quot;</span>, a, <span style="color: #4070a0">&quot;Upper&quot;</span>, b)
+	fmt.Println(<span style="color: #4070a0">&quot;Same?&quot;</span>, C, MtrxMult(a, b))
+
+	fmt.Println(<span style="color: #4070a0">&quot;_____________________&quot;</span>)
+
+	l, u <span style="color: #666666">:=</span> LuDecomp(B)
+	fmt.Println(<span style="color: #4070a0">&quot;Lower&quot;</span>, l, <span style="color: #4070a0">&quot;Upper&quot;</span>, u)
+	fmt.Println(<span style="color: #4070a0">&quot;Same?&quot;</span>, B, MtrxMult(l, u))
+
+	fmt.Println(<span style="color: #4070a0">&quot;_____________________&quot;</span>)
+
+	L, U <span style="color: #666666">:=</span> LuDecomp(A)
+	fmt.Println(<span style="color: #4070a0">&quot;Lower&quot;</span>, L, <span style="color: #4070a0">&quot;Upper&quot;</span>, U)
+	fmt.Println(<span style="color: #4070a0">&quot;Same?&quot;</span>, A, MtrxMult(L, U))
+
+	fmt.Println(<span style="color: #4070a0">&quot;_____________________&quot;</span>)
+
+	c, d <span style="color: #666666">:=</span> LuDecomp(D)
+	fmt.Println(<span style="color: #4070a0">&quot;Lower&quot;</span>, c, <span style="color: #4070a0">&quot;Upper&quot;</span>, d)
+	fmt.Println(<span style="color: #4070a0">&quot;Same?&quot;</span>, D, MtrxMult(c, d))
+
+	fmt.Println(<span style="color: #4070a0">&quot;_____________________&quot;</span>)
+
+	e, f <span style="color: #666666">:=</span> LuDecomp(E)
+	fmt.Println(<span style="color: #4070a0">&quot;Lower&quot;</span>, e, <span style="color: #4070a0">&quot;Upper&quot;</span>, f)
+	fmt.Println(<span style="color: #4070a0">&quot;Same?&quot;</span>, E, MtrxMult(e, f))
+
+}
 </pre></div>
 
          

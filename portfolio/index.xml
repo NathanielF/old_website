@@ -61,10 +61,10 @@ There are a number of machine learning packages in development but none have the
     
     <item>
       <title>Fisher&#39;s Exact P-values</title>
-      <link>https://NathanielF.github.io/portfolio/causation/causal_models/</link>
+      <link>https://NathanielF.github.io/portfolio/causal_models/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://NathanielF.github.io/portfolio/causation/causal_models/</guid>
+      <guid>https://NathanielF.github.io/portfolio/causal_models/</guid>
       <description>In this post we outline an attempt to pin down causal relationships in social science using Fisher’s approach of exact p-values
 Fisher’s Exact p-values and Randomised distributions The fundamental problem of causal inference is best illustrated within the ideal of a randomised experiment where we can observe for each patient their previous traits, whether or not they were treated and their individual outcomes under a given treatment plan.
 It is easy to see that we are unable to observe the counterfactual outcome for each particular patient under this treatment plan.</description>

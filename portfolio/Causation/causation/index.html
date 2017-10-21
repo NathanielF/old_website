@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Causal Models in Social Science</title>
+<meta name="description" content="Describe your website">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,300,700,400italic">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/owl.carousel.css">
+<link rel="stylesheet" href="/css/owl.theme.css">
+
+
+  <link href="/css/style.default.css" rel="stylesheet" id="theme-stylesheet">
+
+
+<link href="/css/custom.css" rel="stylesheet">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+
+</head>
+<body>
+  <div id="all">
+      <div class="container-fluid">
+          <div class="row row-offcanvas row-offcanvas-left">
+              <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
+  <div class="sidebar-content">
+    <h1 class="sidebar-heading"><a href="/">Randomly Jittered</a></h1>
+    
+      <p class="sidebar-p">This website is where i work through things I don't understand. Feel free to lend a hand; contact details below</p>
+    
+    <ul class="sidebar-menu">
+      
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/about/">About</a></li>
+      
+        <li><a href="/contact/">Get in touch</a></li>
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    </ul>
+    <p class="social">
+  
+  <a href="https://www.facebook.com/nathaniel.forde" data-animate-hover="pulse" class="external facebook">
+    <i class="fa fa-facebook"></i>
+  </a>
+  
+  
+  
+  
+  
+  <a href="mailto:nathaniel.forde@gmail.com" data-animate-hover="pulse" class="email">
+    <i class="fa fa-envelope"></i>
+  </a>
+  
+  
+  <a href="https://www.linkedin.com/in/nathaniel-forde-2477a265/" data-animate-hover="pulse">
+    <i class="fa fa-linkedin"></i>
+  </a>
+  
+  
+  
+</p>
+
+
+    <div class="copyright">
+      <p class="credit">
+        
+          &copy;2017 Nathaniel Forde
+        
+        | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
+
+&amp; ported to Hugo by <a href="https://github.com/kishaningithub">Kishan B</a>
+
+      </p>
+    </div>
+  </div>
+</div>
+
+              
+<div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
+  <div class="small-navbar visible-xs">
+  <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
+  <h1 class="small-navbar-heading"><a href="/">Randomly Jittered</a></h1>
+</div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="content-column-content">
+         <h1>Causal Models in Social Science</h1>
+         <p>In this notebook we shall examine three attempts to pin down causal relationships in social science. First we examine the work of Imbens and Rubin and their attempts to infer an average treatment effect of an intervention. We shall similarly, assess the method of instrumental variable regression as discussed by Angrist before finally focusing on the approach developed by Judea Pearl.</p>
+<div id="fishers-exact-p-values-and-randomised-distributions" class="section level3">
+<h3>Fisher’s Exact p-values and Randomised distributions</h3>
+<p>The fundamental problem of causal inference is best illustrated within the ideal of a randomised experiment where we can observe for each patient their previous traits, whether or not they were treated and their individual outcomes. It is easy to see that we are unable to observe the counterfactual outcome for each particular patient under this treatment plan. A treatment plan <span class="math inline">\(\textbf{ W }\)</span> counts as a randomised experiment if each patient is assigned a treatment status with probability between 0 and 1 according to a function known by the experimenter.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">unit</th>
+<th align="right">Y(0)</th>
+<th align="right">Y(1)</th>
+<th align="right">W</th>
+<th align="left">covariates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Patient #1</td>
+<td align="right">NA</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="left">3, 2, 1</td>
+</tr>
+<tr class="even">
+<td align="left">Patient #2</td>
+<td align="right">NA</td>
+<td align="right">5</td>
+<td align="right">1</td>
+<td align="left">2, 4, 1</td>
+</tr>
+<tr class="odd">
+<td align="left">Patient #3</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">5, 2, 4</td>
+</tr>
+<tr class="even">
+<td align="left">Patient #4</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+<td align="left">6, 1, 3</td>
+</tr>
+<tr class="odd">
+<td align="left">Patient #5</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+<td align="left">4, 3, 2</td>
+</tr>
+<tr class="even">
+<td align="left">Patient #6</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="right">0</td>
+<td align="left">4, 1, 2</td>
+</tr>
+</tbody>
+</table>
+<p>In this table we can see only the outcomes of the experiment for six patients, but we are unable to calculate the causal effect at the patient level because we will never observe the counterfactual result of not treating (treating) a treated (not treated) patient. Instead, following Fisher we seek to observe the average causal effect of the treatment at a population level by deriving a test-statistic from our observed results.</p>
+<p><span class="math inline">\(T(\textbf{W}, \textbf{Y}^{obs}) = T^{diff} = |\overline{Y}^{obs}_{1} - \overline{Y}^{obs}_{0}|  = |8 / 3 - 5 /3 | = 1.00\)</span></p>
+<p>Now this result is insufficient to conclude anything substantial but consider the addition of a second assumption regarding the null hypothesis. If the null hypothesis is true, (i.e. if the treatment has no effect), then we have the following situation where:</p>
+<p><span class="math inline">\(Y_{c}(0) = Y_{t}(1) = Y^{obs}\)</span></p>
+<p>holds regardless of treatment plan. Hence we can vary the treatment in the following fashion and calculate the test statistics from each. There are <span class="math inline">\({6 \choose 3} = 20\)</span> treatment plans, but we show the first 6 to give the idea.</p>
+<pre><code>##    1 2 3 4 5 6  testStat
+## 1: 1 1 1 0 0 0 1.0000000
+## 2: 1 1 0 1 0 0 3.6666667
+## 3: 1 0 1 1 0 0 0.3333333
+## 4: 0 1 1 1 0 0 1.6666667
+## 5: 1 1 0 0 1 0 1.0000000
+## 6: 1 0 1 0 1 0 2.3333333</code></pre>
+<p>But in a population of a larger size the the numbers quickly grow. For instance with 30 patients, we have <span class="math inline">\({30 \choose 15 } = 155,117,520\)</span> number of potential treatment plans. Of these plans the null hypothesis states that the observed outcome is as likely as any other outcome. More concretely we can derive a p-value (the probability of our observed case occuring given the null hypothesis) for our observed test-statistic from the fact that we can calculate all the potential test-statistics resulting from every possible treatment plan. Our p-value is the proportion of the possible treatment plans would result in test-statistic greater than or comparable to the observed test-statistic? A low p-value, typically below .05 indicates that the null hypothesis is false.</p>
+<p>This type of consideration allows us to assess whether there is an effect of the treatment, but not the degree to which the treatment is effective. Fortunately we can make use of the same set up to estimate the average causal effect to within an arbitary degree of confidence. Consider instead that we take a series of null hypotheses to be defined as:</p>
+<p><span class="math inline">\(Y_{c}(0) = Y_{t}(1) + c\)</span> where <span class="math inline">\(c \in C = [-3, -2.75, -2.5, ... 1.00]\)</span></p>
+<p>Then for each case we are able to fill in the outcomes table. If we let <span class="math inline">\(c = .5\)</span> then we have:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">unit</th>
+<th align="left">Y(0)</th>
+<th align="left">Y(1)</th>
+<th align="right">W</th>
+<th align="left">covariates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Patient #1</td>
+<td align="left">(2.5)</td>
+<td align="left">3</td>
+<td align="right">1</td>
+<td align="left">3, 2, 1</td>
+</tr>
+<tr class="even">
+<td align="left">Patient #2</td>
+<td align="left">(4.5)</td>
+<td align="left">5</td>
+<td align="right">1</td>
+<td align="left">2, 4, 1</td>
+</tr>
+<tr class="odd">
+<td align="left">Patient #3</td>
+<td align="left">(-0.5)</td>
+<td align="left">0</td>
+<td align="right">1</td>
+<td align="left">5, 2, 4</td>
+</tr>
+<tr class="even">
+<td align="left">Patient #4</td>
+<td align="left">4</td>
+<td align="left">(4.5)</td>
+<td align="right">0</td>
+<td align="left">6, 1, 3</td>
+</tr>
+<tr class="odd">
+<td align="left">Patient #5</td>
+<td align="left">0</td>
+<td align="left">(.5)</td>
+<td align="right">0</td>
+<td align="left">4, 3, 2</td>
+</tr>
+<tr class="even">
+<td align="left">Patient #6</td>
+<td align="left">1</td>
+<td align="left">(1.5)</td>
+<td align="right">0</td>
+<td align="left">4, 1, 2</td>
+</tr>
+</tbody>
+</table>
+<p>which gives us the following test-statistic.</p>
+<p><span class="math inline">\(T(\textbf{W}, \textbf{Y}^{obs}) = T^{diff} = |\overline{Y}^{obs}_{1} - \overline{Y}^{obs}_{0}| - c = |14.5/6 - 11.5/6| -.5 = 0\)</span></p>
+<p>we can now range over all the possible treatment plans and calculate a test statistic for each allowing us to derive a p-value for the observed result. Repeating this process for each <span class="math inline">\(c \in C\)</span> we gain a set of p-values which will circumscribe those elements of <span class="math inline">\(C\)</span> which have high positive probability under the assumed null hypothesis - giving us a range of values which are plausible candidates for the average causal effect of the treatment. However to calculate the p-value under each possible treatment plan is computationally very expensive. Instead we approximate the pvalue for each hypothesis by sampling from the set of all possible random assignments. Consider a patient group of 30 where we sample a list of 100 assignment plans.</p>
+<pre class="r"><code>set.seed(1)
+
+samples &lt;- c()
+assignment &lt;- rep(0:1, 15)
+for(i in 1:100) {
+  permutation &lt;- sample(assignment)
+  samples &lt;- c(samples, list(permutation))
+}
+
+calcTest &lt;- function(df, candidate) {
+  AvgT &lt;- aggregate(`Y(1)` ~ W, df, mean)
+  AvgT &lt;- as.matrix(AvgT)
+  AvgC &lt;- aggregate(`Y(0)` ~ W, df, mean)
+  AvgT &lt;- as.matrix(AvgT)
+  diff &lt;- abs(AvgT[2, 2] - AvgC[1, 2]) - candidate
+  return(diff)
+}
+
+calcAll &lt;- function(df, samples, candidates) {
+  pvalues &lt;- data.frame(Candidate &lt;- c(), Pvalue &lt;- c())
+  for (i in 1:length(candidates)) {
+    
+    df$`Y(1)`[1:15] &lt;- df$`Y(0)`[1:15] + candidates[i]
+    df$`Y(0)`[16:30] &lt;- df$`Y(1)`[16:30] - candidates[i]
+    
+    testStats &lt;- c()
+    for (j in 1:length(samples)) {
+      df$W &lt;- samples[[j]]
+      testStats &lt;- c(testStats, calcTest(df, candidates[i]))
+    }
+    obsStat &lt;- testStats[1]
+    pvalue &lt;- length(testStats[testStats &gt;= obsStat]) / length(testStats)
+    pvalues &lt;- rbind(pvalues, c(candidates[i], pvalue))
+  }
+  return(pvalues)
+}
+
+Y0 &lt;- rnorm(30, 0, 1)
+Y1 &lt;- rnorm(30, 4, 1)
+units &lt;- 1:30
+treatment &lt;- rep(c(0, 1), 15)
+df &lt;- data.frame(units, Y0, Y1, treatment)
+colnames(df) &lt;- c(&quot;unit&quot;, &quot;Y(0)&quot;, &quot;Y(1)&quot;, &quot;W&quot;)
+candidates &lt;- seq(-3, 3, .5) 
+
+result &lt;- calcAll(df, samples, candidates)
+colnames(result) &lt;- c(&quot;Hypothetical Difference&quot;, &quot;P-value in Sample&quot;)
+kable(result)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Hypothetical Difference</th>
+<th align="right">P-value in Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-3.0</td>
+<td align="right">0.79</td>
+</tr>
+<tr class="even">
+<td align="right">-2.5</td>
+<td align="right">0.80</td>
+</tr>
+<tr class="odd">
+<td align="right">-2.0</td>
+<td align="right">0.82</td>
+</tr>
+<tr class="even">
+<td align="right">-1.5</td>
+<td align="right">0.90</td>
+</tr>
+<tr class="odd">
+<td align="right">-1.0</td>
+<td align="right">1.00</td>
+</tr>
+<tr class="even">
+<td align="right">-0.5</td>
+<td align="right">0.66</td>
+</tr>
+<tr class="odd">
+<td align="right">0.0</td>
+<td align="right">0.30</td>
+</tr>
+<tr class="even">
+<td align="right">0.5</td>
+<td align="right">0.15</td>
+</tr>
+<tr class="odd">
+<td align="right">1.0</td>
+<td align="right">0.13</td>
+</tr>
+<tr class="even">
+<td align="right">1.5</td>
+<td align="right">0.13</td>
+</tr>
+<tr class="odd">
+<td align="right">2.0</td>
+<td align="right">0.10</td>
+</tr>
+<tr class="even">
+<td align="right">2.5</td>
+<td align="right">0.07</td>
+</tr>
+<tr class="odd">
+<td align="right">3.0</td>
+<td align="right">0.04</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+          </div>
+      </div>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.cookie.js"> </script>
+<script src="/js/ekko-lightbox.js"></script>
+<script src="/js/jquery.scrollTo.min.js"></script>
+<script src="/js/masonry.pkgd.min.js"></script>
+<script src="/js/imagesloaded.pkgd.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/front.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[','\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+</script>
+<script type="text/javascript"
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</body>
+</html>

@@ -32,15 +32,6 @@ In part this limitation stems from the fact that the Heaviside activation functi
     </item>
     
     <item>
-      <title>Decision Boundaries</title>
-      <link>https://NathanielF.github.io/portfolio/perceptron/decisionpoints/</link>
-      <pubDate>Mon, 08 May 2017 08:22:07 +0100</pubDate>
-      
-      <guid>https://NathanielF.github.io/portfolio/perceptron/decisionpoints/</guid>
-      <description>Despite sounding like the protagonist of rejected sci-fi script, the perceptron is just a lowly algorithm. Inspired by the model of neuronal triggering patterns, this simple linear classifier was designed to enact a pseudo-biological processing mechanism. As our brain receives and processes different inputs it unconsciously corrects for infelicities in rendering based on a weighting derived from past experience. The thought is that we are progressively conditioned for behaviour that expedites performance of perceptual and physical reflex.</description>
-    </item>
-    
-    <item>
       <title>Matrices and Machine Learning</title>
       <link>https://NathanielF.github.io/portfolio/matrixmultiplication/</link>
       <pubDate>Mon, 08 May 2017 08:22:07 +0100</pubDate>
@@ -51,12 +42,32 @@ There are a number of machine learning packages in development but none have the
     </item>
     
     <item>
+      <title>Perceptron</title>
+      <link>https://NathanielF.github.io/portfolio/perceptron/perceptron/</link>
+      <pubDate>Mon, 08 May 2017 08:22:07 +0100</pubDate>
+      
+      <guid>https://NathanielF.github.io/portfolio/perceptron/perceptron/</guid>
+      <description>Despite sounding like the protagonist of rejected sci-fi script, the perceptron is just a lowly algorithm. Inspired by the model of neuronal triggering patterns, this simple linear classifier was designed to enact a pseudo-biological processing mechanism. As our brain receives and processes different inputs it unconsciously corrects for infelicities in rendering based on a weighting derived from past experience. The thought is that we are progressively conditioned for behaviour that expedites performance of perceptual and physical reflex.</description>
+    </item>
+    
+    <item>
       <title>Why is OLS BLUE?</title>
       <link>https://NathanielF.github.io/portfolio/ols-and-the-gauss-markov-theorem/</link>
       <pubDate>Sun, 06 Nov 2016 13:00:25 +0530</pubDate>
       
       <guid>https://NathanielF.github.io/portfolio/ols-and-the-gauss-markov-theorem/</guid>
       <description>There is an aesthetic discipline to mathematics as much as there is an expectation of rigour. We shall attempt to showcase the relation between aesthetic dimension of a proof with its explanatory purchase. We shall take as our example a standard proof used in regression analysis to find the slope of a line/plane which maps the trajectory of a series of observed points/locations along a trajectory. Given this problem we can draw a line/plane with the slope and it can be shown that this line (as a function of slope) is the best available line that can be drawn through our points of observation.</description>
+    </item>
+    
+    <item>
+      <title>Fisher&#39;s Exact P-values</title>
+      <link>https://NathanielF.github.io/portfolio/causation/causal_models/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://NathanielF.github.io/portfolio/causation/causal_models/</guid>
+      <description>In this post we outline an attempt to pin down causal relationships in social science using Fisher’s approach of exact p-values
+Fisher’s Exact p-values and Randomised distributions The fundamental problem of causal inference is best illustrated within the ideal of a randomised experiment where we can observe for each patient their previous traits, whether or not they were treated and their individual outcomes under a given treatment plan.
+It is easy to see that we are unable to observe the counterfactual outcome for each particular patient under this treatment plan.</description>
     </item>
     
   </channel>
